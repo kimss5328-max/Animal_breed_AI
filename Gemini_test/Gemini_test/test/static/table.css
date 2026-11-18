@@ -1,0 +1,48 @@
+table {
+    width: 400px; 
+    margin: 40px auto;
+    background-color: #fff;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: 0 5px 15px var(--shadow-subtle);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+th, td {
+    border: none;
+    padding: 8px 10px; 
+    text-align: left;
+    vertical-align: middle; 
+}
+
+th {
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--text-color-dark); 
+    font-size: 15px;
+}
+td {
+    color: var(--text-color-dark);
+}
+
+table tr:first-child td {
+    text-align: center !important;
+    font-weight: 700;
+    color: var(--primary-dark-color);
+    padding: 15px 10px;
+}
+
+table tr:not(:first-child):not(:nth-child(2)) td:nth-child(4) {
+    width: 1px; 
+    white-space: nowrap;
+    padding: 8px 10px; 
+}
+
+/* 로그아웃 버튼 셀의 상하 패딩을 0으로 강제합니다. */
+.logout-btn-cell {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 10px !important; 
+    padding-right: 10px !important; 
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Ani_in.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='overflow.css') }}">
+    <title>추천받은 동물 통계</title>
+</head>
+
+<body>
+
+    <header class="header-area">
+        <div class="header-container">
+            <div class="logo-text-only" onclick="document.location.href='/Login'">
+                SoulPaw</div>
+            <div style="text-align : center;" onclick="document.location.href='/Login'">
+                <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 80px;"
+                    alt="Soul Paw Image">
+            </div>
+            <div class="auth-logged-in">
+                <span class="user-welcome"><b>{{ US_name }}</b>님 안녕하세요</span>
+                <button class="logout-btn" onclick="document.location.href='/Logout'">로그아웃</button>
+            </div>
+    </header>
+
+    <main class="stats-container">
+        <div class="stats-card">
+            <h2 class="stats-title">🐾 추천 결과 통계</h2>
+            <div class="stats-list">
+                {% for i in animal_all %}
+                <div class="stats-item-group">
+                    <div class="animal-info-row">
+                        <div class="animal-name-box">
+                            <span class="animal-label">TYPE</span>
+                            <span class="animal-name">{{ i[0] }}</span>
+                        </div>
+                        <div class="animal-count">
+                            {{ i[1] }}<span class="unit">명</span>
+                        </div>
+                    </div>
+
+                    <div class="graph-wrapper">
+                        <div class="graph-track">
+                            <div class="graph-fill" style="width: {{ (i[1] / max_val * 100) if max_val else 0 }}%;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn-main" onclick="location.href='/Login'">메인화면으로</button>
+                <button type="button" class="btn-prev" onclick="location.href='/Group'">이전으로</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>Copyright © 2026 SoulPaw All Rights Reserved.</p>
+    </footer>
+
+</body>
+
+</html>

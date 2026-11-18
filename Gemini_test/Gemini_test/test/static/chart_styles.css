@@ -1,0 +1,75 @@
+/* ==================================== */
+/* 1. 기본 데스크톱/태블릿 레이아웃 (가로 배치) */
+/* ==================================== */
+.main-stats-flex {
+    /* Flexbox 활성화 */
+    display: flex; 
+    /* 자식 요소들을 가로로 배치 */
+    flex-direction: row; 
+    /* 전체 컨텐츠를 중앙에 배치 */
+    justify-content: center; 
+    padding-top: 20px; 
+    /* 요소들 사이에 간격 추가 */
+    gap: 30px; 
+    /* 수직 정렬 (상단 맞춤) */
+    align-items: flex-start; 
+}
+
+/* 통계 목록 상자 스타일 */
+.percent-list-box {
+    /* 차트 상자의 배경, 테두리, 패딩을 설정하여 시각적으로 분리 */
+    background-color: var(--background-light); 
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 15px;
+    box-sizing: border-box;
+    /* 테이블 옆에 적절한 공간을 차지하도록 너비 설정 */
+    min-width: 250px; 
+    max-width: 300px; 
+    /* 텍스트 스타일 */
+    font-family: inherit;
+}
+
+.percent-list-box h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-light);
+    padding-bottom: 5px;
+}
+
+.percent-list-box p {
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* ==================================== */
+/* 2. 모바일 반응형 레이아웃 (세로 배치) */
+/* (기존 responsive.css의 @media 블록 안에 추가) */
+/* ==================================== */
+@media (max-width: 480px) {
+    /* ... (기존 모바일 테이블 CSS 유지) ... */
+    
+    .main-stats-flex {
+        /* 가로 배치(row)를 세로 배치(column)로 변경 */
+        flex-direction: column; 
+        /* 가로 중앙 정렬 */
+        align-items: center; 
+        gap: 15px; 
+        padding: 0 10px; /* 좌우 패딩 추가 */
+    }
+
+    .percent-list-box {
+        /* 모바일 전체 너비 사용 */
+        width: 100%;
+        max-width: 100%;
+        padding: 15px 20px;
+    }
+    
+    .data-list-table {
+        margin: 0; /* 불필요한 마진 제거 */
+    }
+}

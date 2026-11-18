@@ -1,0 +1,43 @@
+# ===== 비밀 정보 =====
+.env
+*.bak_before_env
+
+# ===== 모델 가중치 (용량 초과 — 별도 보관) =====
+llama3_model/
+trained_*/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# ===== 자동 생성 =====
+__pycache__/
+*.pyc
+venv/
+.venv/
+unsloth_compiled_cache/
+.ipynb_checkpoints/
+
+# ===== 바이너리 · 외부 도구 =====
+instantclient*/
+*.zip
+*.tgz
+*.so
+*.so.*
+META-INF/
+
+# ===== 쓰레기 파일 =====
+*Zone.Identifier
+*.swp
+=*
+
+# ===== 구버전 · 실험 (docs/99a_archive.md 참고) =====
+Fastserver.py
+AI_test.py
+mbti_pet_training_data_test.jsonl
+Gemini_test/Gemini_test/test.py
+Gemini_test/Gemini_test/test/manage.py
+Gemini_test/Gemini_test/test/gemma3_test.ipynb
+Gemini_test/Gemini_test/test/templates/find_pw.html
+Gemini_test/Gemini_test/test/templates/reset_pw.html
+archive/

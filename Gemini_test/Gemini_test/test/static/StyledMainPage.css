@@ -1,0 +1,460 @@
+:root {
+    --primary-color: #58a6a2; 
+    --primary-dark-color: #498c89;
+    --accent-color: #7fd6d1; 
+    --text-color-dark: #3a4750; 
+    --text-color-light: #6a7f8b; 
+    --background-light: #f9fafb; 
+    --border-light: #e0e5e9;
+    --shadow-subtle: rgba(0, 0, 0, 0.08); 
+    --shadow-focus: rgba(88, 166, 162, 0.3); 
+    --hover-background: #f0f7f6;
+}
+
+/* ------------------------------------- */
+/* 1. 기본 스타일 */
+/* ------------------------------------- */
+
+body {
+    font-family: 'Pretendard', 'Noto Sans KR', 'Segoe UI', sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-color-dark);
+    font-size: 16px; 
+    margin: 0;
+    padding: 0;
+    line-height: 1.5; 
+}
+
+/* ------------------------------------- */
+/* 2. 테이블 스타일 (목록에 최적화) */
+/* ------------------------------------- */
+
+table {
+    width: 400px; 
+    margin: 40px auto;
+    background-color: #fff;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: 0 5px 15px var(--shadow-subtle);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+th, td {
+    border: none;
+    padding: 8px 10px; 
+    text-align: left;
+    vertical-align: middle; 
+}
+
+th {
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--text-color-dark); 
+    font-size: 15px;
+}
+td {
+    color: var(--text-color-dark);
+}
+
+table tr:first-child td {
+    text-align: center !important;
+    font-weight: 700;
+    color: var(--primary-dark-color);
+    padding: 15px 10px;
+}
+
+table tr:not(:first-child):not(:nth-child(2)) td:nth-child(4) {
+    width: 1px; 
+    white-space: nowrap;
+    padding: 8px 10px; 
+}
+
+/* 로그아웃 버튼 셀의 상하 패딩을 0으로 강제합니다. */
+.logout-btn-cell {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 10px !important; 
+    padding-right: 10px !important; 
+}
+/* ------------------------------------- */
+/* 3. 일반 입력 필드 (높이 통일) */
+/* ------------------------------------- */
+
+.styled-input,
+input[type="text"], 
+input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    /* 높이 통일: padding-top/bottom 14px */
+    padding: 14px 14px; 
+    border: 2px solid var(--border-light);
+    border-radius: 12px;
+    font-size: 16px; 
+    color: var(--text-color-dark);
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.styled-input:focus, 
+input[type="text"]:focus, 
+input[type="password"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--shadow-focus);
+}
+
+/* ------------------------------------- */
+/* 4. 버튼이 포함된 입력 필드 */
+/* ------------------------------------- */
+/* (기존 스타일 유지) */
+.input-with-button {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--border-light);
+    border-radius: 12px;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.input-with-button:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--shadow-focus);
+}
+
+.input-with-button .styled-input {
+    flex-grow: 1;
+    width: auto;
+    padding-right: 14px; 
+    border: none; 
+    border-radius: 0;
+}
+.input-with-button .styled-input:focus {
+    box-shadow: none; 
+}
+
+
+.input-with-button .inside-btn {
+    flex-shrink: 0;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px; 
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-right: 8px; 
+}
+
+.input-with-button .inside-btn:hover {
+    background-color: var(--primary-dark-color);
+    transform: translateY(-1px);
+}
+.input-with-button .inside-btn:active {
+    transform: translateY(0);
+}
+
+
+/* ------------------------------------- */
+/* 5. 메인 버튼 및 메뉴 버튼 스타일 (높이 통일) */
+/* ------------------------------------- */
+
+input[type="button"], input[type="submit"] {
+    width: 100%;
+    margin: 10px 0;
+    /* 높이 통일: padding-top/bottom 14px */
+    padding: 14px 0; 
+    border: none;
+    border-radius: 12px;
+    font-size: 16px; 
+    font-weight: 600; 
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    letter-spacing: 0.3px;
+}
+input[type="button"]:hover, input[type="submit"]:hover {
+    background-color: var(--primary-dark-color);
+    transform: translateY(-1px);
+}
+input[type="button"]:active, input[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* --- 상단 '전체보기'와 '검색' 버튼 --- */
+table tr:nth-child(2) input[type="button"] {
+    width: 100%; 
+    margin: 0;
+    padding: 14px 0; 
+    border-radius: 12px;
+}
+
+/* --- 상단 '로그아웃' 버튼 (높이 강제 고정) --- */
+.logout-btn-cell input[type="button"] {
+    height: 46px; 
+    line-height: 46px; 
+    padding: 0 !important; 
+    margin: 0 !important; 
+    width: 100% !important; 
+}
+
+
+/* --- 하단 '메인화면' 버튼 (색상 통일 유지) --- */
+table tr:last-child input[type="button"] {
+    background-color: var(--primary-color); 
+    margin-top: 20px;
+}
+table tr:last-child input[type="button"]:hover {
+    background-color: var(--primary-dark-color);
+}
+
+/* ------------------------------------- */
+/* 세부정보 버튼만 작게 만드는 스타일 (예외) */
+/* ------------------------------------- */
+/* (기존 스타일 유지) */
+.seboo {
+    width: auto !important; 
+    padding: 6px 12px !important; 
+    margin: 0 !important; 
+    font-size: 13px !important; 
+    border-radius: 8px !important; 
+    transform: none !important;
+}
+
+.seboo:hover {
+    transform: translateY(-1px) !important;
+}
+
+/* ------------------------------------- */
+/* 6. 커스텀 셀렉트 드롭다운 */
+/* ------------------------------------- */
+/* (기존 스타일 유지) */
+.select-search-input{
+    width: 90%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    margin: 6px auto;
+    display: block;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--text-color-dark);
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.select-search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--shadow-focus);
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+    font-family: inherit;
+    box-sizing: border-box;
+    border: 2px solid var(--border-light); 
+    border-radius: 12px;
+    background-color: #fff;
+    transition: all 0.2s ease;
+    font-size: 15px; 
+    outline: none;
+}
+
+.custom-select:focus-within, .custom-select.active {
+    border-color: var(--primary-color);
+    box-shadow: none; 
+}
+
+.select-selected {
+    background-color: transparent;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 14px; 
+    cursor: pointer;
+    font-size: 16px; 
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color-dark);
+    transition: all 0.2s ease;
+}
+
+.select-selected::after {
+    content: '▼';
+    font-size: 12px;
+    color: var(--text-color-light);
+    margin-left: 5px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+.custom-select.active .select-selected::after {
+    transform: rotate(180deg);
+    color: var(--primary-color);
+}
+
+.select-items {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 6px 15px var(--shadow-subtle); 
+    border-radius: 12px;
+    width: calc(100% + 4px);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 100;
+    left: -2px;
+    top: calc(100% + 8px); 
+    padding-top: 5px;
+}
+.select-items div {
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-size: 15px;
+    text-align: left;
+    color: var(--text-color-dark);
+}
+.select-items div:hover {
+    background-color: var(--hover-background);
+    color: var(--primary-dark-color);
+}
+.custom-select.active .select-items {
+    display: block;
+}
+
+.select-items::-webkit-scrollbar {
+    width: 6px;
+}
+.select-items::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 3px;
+}
+.select-items::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+.fixed-width-80 {
+    width: 80px !important; 
+}
+
+.fixed-width-80 .select-selected {
+    width: 90%; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    padding: 14px 14px; 
+    padding-left: 5px !important;
+    padding-right: 0px !important;
+}
+
+.fixed-width-80 .select-selected::after {
+    margin-left: 5px; 
+}
+
+.fixed-width-80 .select-items {
+    width: 84px !important;
+}
+
+
+/* ------------------------------------- */
+/* 7. 모바일 반응형 (max-width: 480px) */
+/* ------------------------------------- */
+
+@media (max-width: 480px) {
+
+    table {
+        width: 100%; 
+        max-width: none;
+        margin: 20px 0; 
+        padding: 15px;
+        box-shadow: none; 
+        border-radius: 0; 
+    }
+    
+    th, td {
+        display: block; 
+        width: 100%;
+        text-align: left;
+        padding: 0; 
+    }
+    
+    .data-list-table tr:not(:first-child):not(:last-child) {
+        display: flex;
+        flex-wrap: nowrap; 
+        align-items: center;
+        width: 100%;
+        padding: 8px 5px; 
+        border-bottom: 1px solid var(--border-light); 
+        box-sizing: border-box; 
+    }
+    
+    .data-list-table tr:nth-child(2) {
+        display: flex; 
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: none;
+    }
+    .data-list-table tr:nth-child(2) td {
+        display: initial; 
+        flex-grow: 1;
+        margin: 0 5px; 
+        padding: 0;
+        width: auto;
+    }
+    .data-list-table tr:nth-child(2) td:first-child { margin-left: 0; }
+    .data-list-table tr:nth-child(2) td:last-child { margin-right: 0; }
+
+    .data-list-table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td {
+        display: initial; 
+        width: auto;
+        padding: 0 5px; 
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
+    
+    .data-list-table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td:nth-child(1) {
+        width: 20%; 
+        font-weight: 600;
+        padding-left: 0;
+    }
+    .data-list-table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td:nth-child(2) {
+        width: 30%;
+    }
+    .data-list-table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td:nth-child(3) {
+        width: 15%;
+        text-align: right;
+    }
+    .data-list-table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td:nth-child(4) {
+        width: 35%;
+        flex-shrink: 0;
+        text-align: right;
+        padding-right: 0;
+    }
+
+    table .top-row {
+        flex-grow: 1; 
+        font-size: 16px;
+        font-weight: 500;
+        padding-right: 10px; 
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    
+    input[type="button"], input[type="submit"] {
+        margin: 8px 0 !important;
+        transform: translateZ(0); 
+    }
+
+    .seboo {
+        width: auto !important; 
+        padding: 6px 12px !important; 
+        margin: 0 !important; 
+        font-size: 13px !important; 
+    }
+}

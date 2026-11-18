@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>닉네임 설정 - SoulPaw</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .setup-box { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 350px; }
+        .setup-box h2 { color: #333; margin-bottom: 10px; }
+        .setup-box p { color: #666; font-size: 14px; margin-bottom: 25px; }
+        .setup-input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        .setup-btn { width: 100%; padding: 12px; background-color: #4285F4; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: background 0.3s; }
+        .setup-btn:hover { background-color: #357ae8; }
+    </style>
+</head>
+<body>
+    <div class="setup-box">
+        <h2>환영합니다!</h2>
+        <p>SoulPaw에서 사용할 닉네임을 정해주세요.</p>
+        <form action="/set_name" method="POST">
+            <input type="text" name="user_name" class="setup-input" placeholder="닉네임 (최대 12자)" required maxlength="12">
+            <button type="submit" class="setup-btn">가입 완료 및 시작하기</button>
+        </form>
+    </div>
+</body>
+</html>

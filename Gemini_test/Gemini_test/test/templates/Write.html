@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SoulPaw | 새 글 작성</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Write.css') }}">
+</head>
+
+<body>
+    <!-- 1. 하단 고정을 위한 전체 wrapper 시작 -->
+    <div id="wrapper">
+
+        <header class="header-area">
+            <div class="header-container">
+                <div class="logo-text-only" onclick="document.location.href='/Login'">
+                    SoulPaw</div>
+                <div style="text-align : center;" onclick="document.location.href='/Login'">
+                    <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 80px;"
+                        alt="Soul Paw Image">
+                </div>
+                <div class="auth-logged-in">
+                    <span class="user-welcome"><b>{{ US_name }}</b>님 안녕하세요</span>
+                    <button class="logout-btn" onclick="document.location.href='/Logout'">로그아웃</button>
+                </div>
+            </div>
+        </header>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <script>
+            {% for message in messages %}
+            alert("{{ message }}");
+            {% endfor %}
+        </script>
+        {% endif %}
+        {% endwith %}
+
+        <!-- 2. 본문 영역: board-container를 main 태그로 변경하여 flex-grow 적용 -->
+        <main class="board-container">
+            <div class="write-form-wrapper">
+                <h2>✨ 새로운 이야기 작성</h2>
+
+                <form method="POST" action="/write" class="write-form">
+                    <div class="input-group">
+                        <label>제목</label>
+                        <input type="text" name="title" required placeholder="반려동물에 대한 제목을 입력해 주세요.">
+                    </div>
+
+                    <div class="input-group">
+                        <label>내용</label>
+                        <textarea name="content" required rows="12" placeholder="따뜻한 이야기를 들려주세요."></textarea>
+                    </div>
+
+                    <div class="action-bar">
+                        <button type="submit" class="btn btn-submit">등록하기 ✨</button>
+                        <a href="/board" class="btn btn-back">목록으로 돌아가기</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <!-- 3. 푸터 영역 (board.css에서 정의한 footer 클래스 적용) -->
+        <footer class="footer">
+            <p class="copyright">Copyright © 2026 SoulPaw All Rights Reserved.</p>
+        </footer>
+
+    </div> <!-- wrapper 끝 -->
+
+</body>
+
+</html>

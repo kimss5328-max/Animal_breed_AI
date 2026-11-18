@@ -1,0 +1,166 @@
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                alert('{{ message }}');
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 - SoulPaw</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='NewUser.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script>
+        // 영문/숫자 제한 기능
+        function restrictToEnglishAndNumbers(inputElement) {
+            const cleanedValue = inputElement.value.replace(/[^a-zA-Z0-9]/g, '');
+            inputElement.value = cleanedValue;
+        }
+
+        // 아이디 중복 확인
+        function NW_dp(){
+            const userId = document.getElementById("NW_id").value;
+            if (userId == "") {
+                alert("아이디를 입력해주세요.");
+                return;
+            }
+            fetch("/dup", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `NW_id=${encodeURIComponent(userId)}`
+            })
+            .then(response => response.text())
+            .then(result => alert(result))
+            .catch(error => console.error("중복확인 오류:", error));
+        }
+
+        // 전체 유효성 검사 및 제출
+        function NW_in(){
+            const ID = document.getElementById("NW_id").value;
+            const PW = document.getElementById("NW_pw").value;
+            const PW_1 = document.getElementById("NW_pw_1").value;
+            const name = document.getElementById("US_name").value;
+            const email = document.getElementById("US_email").value;
+
+            function isValidEmail(email) {
+                return /^[\w.-]+@[\w.-]+\.\w+$/.test(email);
+            }
+
+            if(!isValidEmail(email)){
+                alert("올바른 이메일 형식이 아닙니다.");
+                return;
+            }
+
+            if(!ID){
+                alert("아이디를 확인해주세요.");
+                return;
+            }
+            if(!PW){
+                alert("비밀번호를 입력해주세요.");
+                return;
+            }
+            if(!PW_1){
+                alert("비밀번호 확인을 입력해주세요.");
+                return;
+            }
+            // 비밀번호 일치 여부 확인
+            if(PW !== PW_1){
+                alert("비밀번호가 서로 일치하지 않습니다.");
+                return;
+            }
+            if(!name){
+                alert("닉네임을 입력해주세요.");
+                return;
+            }
+            if(!email){
+                alert("이메일을 입력해주세요.");
+                return;
+            }
+
+            document.getElementById("NW_us").submit();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const idInput = document.getElementById("NW_id");
+            idInput.addEventListener("input", () => {
+                fetch("/reset_id_check", { method: "POST" });
+                restrictToEnglishAndNumbers(idInput);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="register-wrapper">
+        <div style="text-align : center; cursor: pointer;" onclick="document.location.href='/'">
+            <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 80px;" alt="Soul Paw Image">
+        </div>
+        <div class="logo-area" style="cursor: pointer;" onclick="location.href='/'">SoulPaw</div>
+        
+        <div class="register-container">
+            <h2>반가워요! <span class="highlight">새 가족</span>이 되어주세요</h2>
+            <p class="subtitle">SoulPaw에서 당신의 소중한 인연이 기다리고 있습니다.</p>
+
+            <form name="NW_us" method="post" id="NW_us" action="/NewUser">
+                <div class="input-group">
+                    <label for="NW_id">아이디</label>
+                    <div class="input-with-button">
+                        <input type="text" name="NW_id" id="NW_id" maxlength="12" placeholder="최대 12글자 (영문/숫자)" class="styled-input" autocomplete="off"/>
+                        <button type="button" onclick="NW_dp()" class="check-btn">중복확인</button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="NW_pw">비밀번호</label>
+                    <input type="password" name="NW_pw" id="NW_pw" maxlength="20" placeholder="비밀번호(최대 20글자)" class="styled-input" />
+                </div>
+
+                <div class="input-group">
+                    <label for="NW_pw_1">비밀번호 확인</label>
+                    <input type="password" name="NW_pw_1" id="NW_pw_1" maxlength="20" placeholder="한 번 더 입력해주세요" class="styled-input" />
+                </div>
+                
+                <div class="input-group">
+                    <label for = "US_email">이메일</label>
+                    <input type="email" name="US_email" id="US_email" required placeholder="example@email.com" class="styled-input">
+                </div>
+
+                <div class="input-group">
+                    <label for = "US_name">닉네임</label>
+                    <input type="text" name="US_name" id="US_name" maxlength="15" placeholder="최대 15글자 (특수문자제외)" class="styled-input">
+                </div>
+
+                <div class="or-separator" style="margin-top: 30px;">
+                    <span class="or-text">또는 소셜 계정 이용</span>
+                </div>
+
+                <button type="button" onclick="location.href='/login/google'" class="google-btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" class="google-icon">
+                    Google 계정으로 시작하기
+                </button>
+
+                <button type="button" onclick="location.href='/login/kakao'"  class="kakao-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" viewBox="0 0 24 24" fill="#191919" style="margin-right: 6px;">
+                    <path d="M12 3c-5.523 0-10 3.582-10 8 0 2.923 1.956 5.51 4.936 6.941l-1.241 4.547c-.12.439.408.79.782.54l5.378-3.582c.465.035.938.054 1.415.054 5.523 0 10-3.582 10-8s-4.447-8-10-8z"/>
+                    </svg>
+                    카카오 로그인
+                </button>
+
+                <div class="or-separator">
+                    <span class="or-text">또는 직접 가입하기</span>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" onclick="NW_in()" class="main-btn">회원가입 완료</button>
+                    <button type="button" onclick="location.href='/'" class="sub-btn">취소 및 돌아가기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

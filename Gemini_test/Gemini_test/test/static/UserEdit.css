@@ -1,0 +1,231 @@
+/* UserEdit.css */
+
+.edit-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 20px !important; /* 위아래 여백을 늘려 더 여유롭게 배치 */
+}
+
+.edit-card {
+    background: #fff;
+    width: 100%;
+    max-width: 480px;
+    padding: 50px 40px;
+    border-radius: 30px; /* 더 둥글게 수정 */
+    /* 그림자를 더 부드럽고 따뜻한 톤으로 변경 */
+    box-shadow: 0 20px 40px rgba(75, 54, 33, 0.05), 0 5px 15px rgba(255, 140, 0, 0.03);
+    border: 1px solid #fdf8f4;
+}
+
+.edit-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.edit-header h2 {
+    color: #4b3621;
+    font-size: 1.9em;
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.edit-header p {
+    color: #8c7b6c; /* 브라운 톤이 가미된 회색으로 변경 */
+    font-size: 0.95em;
+    word-break: keep-all;
+}
+
+/* 폼 그룹 스타일 */
+.form-group {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 700;
+    color: #4b3621;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+    padding-left: 5px; /* 라벨 살짝 안으로 이동 */
+}
+
+/* 인풋 및 셀렉트 공통 스타일 */
+.form-group input, 
+.form-group select {
+    padding: 14px 18px;
+    border: 2px solid #f0e0d0; /* 연한 베이지색 테두리 */
+    border-radius: 15px; /* 더 둥글게 */
+    font-family: inherit;
+    font-size: 1em;
+    color: #4b3621;
+    background-color: #fff;
+    transition: all 0.25s ease;
+}
+
+/* 커스텀 드롭다운 화살표 추가 */
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ff8c00' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.form-group input::placeholder {
+    color: #ccc;
+}
+
+/* 포커스 효과 강화 */
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #ff8c00;
+    outline: none;
+    background-color: #fffaf5; /* 포커스 시 배경도 따뜻하게 */
+    box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.12);
+}
+
+.disabled-input {
+    background-color: #f9f7f5 !important;
+    border-color: #eee !important;
+    color: #bbb;
+    cursor: not-allowed;
+}
+
+.form-group small {
+    color: #a69586;
+    margin-top: 8px;
+    font-size: 0.85em;
+    padding-left: 5px;
+}
+
+/* 버튼 영역 */
+.edit-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 40px;
+}
+
+.save-btn {
+    background-color: #ff8c00;
+    color: #fff;
+    border: none;
+    padding: 16px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 1.1em;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(255, 140, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+    background-color: #e67e00;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(255, 140, 0, 0.25);
+}
+
+.cancel-btn {
+    background-color: transparent;
+    color: #8c7b6c;
+    border: 1px solid #dcdfe6;
+    padding: 14px;
+    border-radius: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cancel-btn:hover {
+    background-color: #f5f5f5;
+    color: #4b3621;
+}
+
+.danger-zone {
+    margin-top: 45px;
+    text-align: center;
+    border-top: 1px dashed #e0d5c8;
+    padding-top: 25px;
+}
+
+.withdraw-link {
+    font-size: 0.9em;
+    color: #c0b4a9;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.withdraw-link:hover {
+    color: #f56c6c;
+    text-decoration: underline;
+}
+
+/* --- Danger Zone 한 줄 스타일 --- */
+.danger-zone {
+    margin-top: 50px;
+    padding: 15px 25px;
+    background-color: #fffafb; /* 연한 붉은빛 배경 */
+    border: 1px solid #ffe3e6;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between; /* 문구는 왼쪽, 버튼은 오른쪽 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 20px;
+}
+
+.danger-notice {
+    margin: 0;
+    font-size: 14px;
+    color: #909399;
+    line-height: 1.4;
+}
+
+.danger-notice strong {
+    color: #d9534f; /* 강조 색상 */
+    margin-right: 5px;
+}
+
+.withdraw-btn {
+    background-color: #ffffff;
+    color: #f56c6c;
+    border: 1px solid #fbc4c4;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap; /* 버튼 텍스트 줄바꿈 방지 */
+}
+
+.withdraw-btn:hover {
+    background-color: #f56c6c;
+    color: #ffffff;
+    border-color: #f56c6c;
+}
+
+/* 화면이 아주 좁아질 때만 세로로 전환 (선택 사항) */
+@media (max-width: 650px) {
+    .danger-zone {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+}
+
+/* 모바일 반응형 대응 */
+@media (max-width: 600px) {
+    .danger-zone {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    .withdraw-btn {
+        width: 100%;
+    }
+}

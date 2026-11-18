@@ -1,0 +1,200 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+/* --- 1. 배경 및 레이아웃 --- */
+body {
+    font-family: "Pretendard", sans-serif;
+    background-color: #fcfaf8;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.register-wrapper {
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+/* --- 2. 로고 및 타이틀 --- */
+.logo-area {
+    font-size: 2.2em;
+    font-weight: 900;
+    color: #4b3621;
+    cursor: pointer;
+    margin-bottom: 30px;
+    letter-spacing: -1.5px;
+}
+
+.register-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
+h2 { font-size: 1.5em; font-weight: 800; color: #333; margin-bottom: 10px; }
+.highlight { color: #ff8c00; }
+.subtitle { font-size: 0.9em; color: #888; margin-bottom: 35px; }
+
+/* --- 3. 입력창 디자인 --- */
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.85em;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 8px;
+    margin-left: 4px;
+}
+
+.styled-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    background-color: #f9f9f9;
+}
+
+.styled-input:focus {
+    outline: none;
+    border-color: #ff8c00;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+}
+
+/* --- 4. 구글 로그인 및 구분선 (추가됨) --- */
+.or-separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 25px 0;
+    color: #bbb;
+    font-size: 0.85em;
+}
+
+.or-separator::before,
+.or-separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #eee;
+}
+
+.or-text {
+    padding: 0 12px;
+}
+
+.google-btn {
+    width: 100%;
+    height: 52px;
+    background-color: #ffffff;
+    border: 1px solid #dadce0;
+    border-radius: 14px;
+    color: #3c4043;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 10px;
+}
+
+.google-btn:hover {
+    background-color: #f8f9fa;
+    border-color: #d2d2d2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.google-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+}
+
+.kakao-btn {
+    width: 100%;
+    height: 52px;
+    background-color: #FEE800;
+    border: 1px solid #dadce0;
+    border-radius: 14px;
+    color: #3c4043;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 10px;
+}
+
+/* --- 5. 버튼 디자인 --- */
+.input-with-button { position: relative; }
+
+.check-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    background-color: #4b3621;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.check-btn:hover { background-color: #352618; }
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px; /* 구글 버튼과의 간격 조절 */
+}
+
+.main-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #ff8c00;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.main-btn:hover { 
+    background-color: #e67e00; 
+    transform: translateY(-2px); 
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.2);
+}
+
+.sub-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: transparent;
+    color: #aaa;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.sub-btn:hover { color: #666; text-decoration: underline; }

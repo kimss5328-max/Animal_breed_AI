@@ -1,0 +1,85 @@
+/* BigfiveResults.css */
+
+/* 1. 푸터를 하단에 고정하기 위한 핵심 레이아웃 */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 화면 높이만큼 최소 높이 확보 */
+}
+
+.main-content-container {
+    flex: 1; /* 콘텐츠가 적어도 푸터를 아래로 밀어냄 */
+    padding-bottom: 50px; /* 푸터와의 간격 */
+}
+
+/* 2. 빅파이브 결과 데이터 시각화 스타일 */
+.ocean-result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.ocean-bar-item {
+    background: #fdfdfd;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #f0e0d0;
+}
+
+.ocean-bar-label {
+    font-size: 0.85em;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    color: #4b3621;
+    font-weight: bold;
+}
+
+.ocean-progress {
+    background: #eee;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.ocean-fill {
+    height: 100%;
+    background: #ff8c00; /* SoulPaw 테마 컬러 */
+    transition: width 1.2s ease-in-out;
+}
+
+/* 3. 읽기 전용 입력창 스타일 */
+.result-view {
+    background-color: #f9f9f9 !important;
+    color: #666 !important;
+    cursor: default;
+    border: 1px solid #eee !important;
+}
+
+/* 4. AI 리포트 텍스트 가독성 설정 */
+.detail-content.has-text {
+    white-space: pre-wrap; /* 줄바꿈 유지 */
+    text-align: left;
+    line-height: 1.8;
+    padding: 20px;
+}
+
+/* 5. 검은색 푸터 고정 스타일 (기존 테마 반영) */
+.main-footer {
+    width: 100%;
+    padding: 40px 0;
+    text-align: center;
+    background-color: #222; /* 검은색 배경 */
+    color: #888; /* 회색 글자 */
+    font-size: 0.9em;
+}
+
+.main-footer p {
+    margin: 0;
+}

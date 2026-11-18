@@ -1,0 +1,93 @@
+@media (max-width: 480px) {
+
+    table {
+        width: 100%; 
+        max-width: none;
+        margin: 20px 0; 
+        padding: 15px;
+        box-shadow: none; 
+        border-radius: 0; 
+    }
+    
+    th, td {
+        display: block; 
+        width: 100%;
+        text-align: left;
+        padding: 0; 
+    }
+    
+    .data-list-table tr:not(:first-child):not(:last-child) {
+        display: flex;
+        flex-wrap: nowrap; 
+        align-items: center;
+        width: 100%;
+        padding: 8px 5px; 
+        border-bottom: 1px solid var(--border-light); 
+        box-sizing: border-box; 
+    }
+    
+    .data-list-table tr:nth-child(2) {
+        display: flex; 
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: none;
+    }
+    .data-list-table tr:nth-child(2) td {
+        display: initial; 
+        flex-grow: 1;
+        margin: 0 5px; 
+        padding: 0;
+        width: auto;
+    }
+    .data-list-table tr:nth-child(2) td:first-child { margin-left: 0; }
+    .data-list-table tr:nth-child(2) td:last-child { margin-right: 0; }
+
+    .data-list-table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td {
+        display: initial; 
+        width: auto;
+        padding: 0 5px; 
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
+    
+    .data-list-table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td:nth-child(1) {
+        width: 20%; 
+        font-weight: 600;
+        padding-left: 0;
+    }
+    .data-list-table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td:nth-child(2) {
+        width: 30%;
+    }
+    .data-list-table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td:nth-child(3) {
+        width: 15%;
+        text-align: right;
+    }
+    .data-list-table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td:nth-child(4) {
+        width: 35%;
+        flex-shrink: 0;
+        text-align: right;
+        padding-right: 0;
+    }
+
+    table .top-row {
+        flex-grow: 1; 
+        font-size: 16px;
+        font-weight: 500;
+        padding-right: 10px; 
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    
+    input[type="button"], input[type="submit"] {
+        margin: 8px 0 !important;
+        transform: translateZ(0); 
+    }
+
+    .seboo {
+        width: auto !important; 
+        padding: 6px 12px !important; 
+        margin: 0 !important; 
+        font-size: 13px !important; 
+    }
+}

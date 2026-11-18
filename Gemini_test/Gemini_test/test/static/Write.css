@@ -1,0 +1,224 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+    
+:root {
+    --primary: #ff8c00;          /* 소울포 오렌지 */
+    --primary-hover: #e67e00;
+    --dark: #4b3621;              /* 소울포 브라운 */
+    --bg-light: #fcfaf8;          /* 배경 아이보리 */
+    --text-main: #2d241e;
+    --text-muted: #909399;
+    --border: #eaeaea;
+    --white: #ffffff;
+    --black: #1a1a1a;            /* 푸터 배경 */
+}
+
+/* [수정] 하단 고정을 위한 기본 높이 설정 */
+html, body { 
+    height: 100%; 
+    margin: 0; 
+    padding: 0; 
+}
+
+/* [추가] 전체 레이아웃을 Flexbox로 설정 */
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 화면 전체 높이 확보 */
+}
+
+body {
+    font-family: "Pretendard", sans-serif;
+    background-color: #fcfaf8; 
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header */
+.header-area {
+    background-color: #ffffff;
+    border-bottom: 1px solid #eaeaea;
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo-text-only {
+    font-size: 1.85em;
+    font-weight: 900;
+    color: #4b3621;
+    cursor: pointer;
+    letter-spacing: -1.5px;
+    user-select: none;
+}
+
+.header-container {
+    max-width: 1400px; 
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;  
+    align-items: center;
+}
+
+.brand-logo {
+    font-size: 1.85em;
+    font-weight: 900;
+    color: var(--dark);
+    text-decoration: none;
+    letter-spacing: -1.5px;
+}
+
+.header-auth-zone { text-align: right; }
+.auth-logged-in { display: flex; align-items: center; gap: 15px; }
+.user-welcome { font-size: 14px; color: #555; }
+.user-welcome b { color: #ff8c00; }
+
+.logout-btn {
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid #dcdfe6;
+    background-color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.logout-btn:hover { background-color: #f8f9fa; color: #f56c6c; border-color: #fbc4c4; }
+
+
+/* [수정] Container: flex-grow를 추가하여 남는 공간을 차지하게 함 */
+.board-container {
+    flex: 1; /* 핵심: 푸터를 아래로 밀어내는 역할 */
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 0 20px;
+    width: 100%; /* 너비 확보 */
+    box-sizing: border-box;
+}
+
+/* Write Form Wrapper */
+.write-form-wrapper {
+    background: var(--white);
+    border-radius: 25px;
+    padding: 50px;
+    box-shadow: 0 10px 30px rgba(75, 54, 33, 0.05);
+    border: 1px solid var(--border);
+}
+
+.write-form-wrapper h2 {
+    text-align: left;
+    margin-bottom: 40px;
+    font-size: 1.8em;
+    font-weight: 800;
+    color: var(--dark);
+}
+
+/* Input Groups */
+.input-group {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--dark);
+    font-size: 0.95em;
+    padding-left: 5px;
+}
+
+.input-group input, 
+.input-group textarea {
+    width: 100%;
+    padding: 15px 20px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+.input-group input:focus, 
+.input-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background-color: var(--white);
+    box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+}
+
+.input-group textarea {
+    resize: none;
+    line-height: 1.6;
+}
+
+/* Action Bar */
+.action-bar {
+    display: flex;
+    gap: 12px;
+    margin-top: 40px;
+}
+
+/* Buttons */
+.btn {
+    flex: 1;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.05em;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-submit {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.btn-submit:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+}
+
+.btn-back {
+    background-color: #f0f0f0;
+    color: #606266;
+}
+
+.btn-back:hover {
+    background-color: #e4e7ed;
+    color: var(--dark);
+}
+
+/* [수정] Footer 스타일 통일 및 자동 하단 배치 */
+footer {
+    padding: 40px;
+    background: var(--black);
+    color: #909399;
+    text-align: center;
+    font-size: 0.85em;
+    margin-top: auto; /* 핵심: flex 구조에서 바닥에 붙게 함 */
+}
+
+footer p {
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .write-form-wrapper {
+        padding: 30px 20px;
+    }
+    
+    .action-bar {
+        flex-direction: column;
+    }
+}

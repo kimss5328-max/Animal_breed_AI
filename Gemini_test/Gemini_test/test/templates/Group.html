@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>SoulPaw | 데이터 통계 센터</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Group.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='overflow.css') }}">
+</head>
+
+<body>
+    <!-- 1. 전체 레이아웃을 제어하는 wrapper 추가[cite: 2] -->
+    <div id="wrapper">
+
+        <header class="header-area">
+            <div class="header-container">
+                <div class="logo-text-only" onclick="document.location.href='/Login'">
+                    SoulPaw</div>
+                <div style="text-align : center;" onclick="document.location.href='/Login'">
+                    <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 80px;"
+                        alt="Soul Paw Image">
+                </div>
+                <div class="auth-logged-in">
+                    <span class="user-welcome"><b>{{ US_name }}</b>님 안녕하세요</span>
+                    <button class="logout-btn" onclick="document.location.href='/Logout'">로그아웃</button>
+                </div>
+            </div> <!-- 헤더 컨테이너 닫기 보완 -->
+        </header>
+
+        <!-- 2. 본문 영역: CSS에서 flex: 1을 부여받아 푸터를 밀어냄[cite: 2] -->
+        <main class="stats-container">
+            <section class="control-panel">
+                <form action="/sub_select" name="sub" method="post" id="sub" class="filter-wrapper">
+                    <button type="button" class="btn-all" onclick="document.location.href='/Group'">전체 데이터 보기</button>
+
+                    <div class="search-group">
+                        <div class="custom-select-mbti">
+                            <div class="select-selected">MBTI 선택</div>
+                            <div class="select-items">
+                                <input type="text" class="select-search-input" placeholder="MBTI 검색 (예: INFJ)"
+                                    onclick="event.stopPropagation()">
+                            </div>
+                        </div>
+                        <input type="hidden" id="US_MBTI_hidden" name="Users">
+                        <button type="button" class="btn-search" onclick="MBTI_submit()">데이터 분석</button>
+                    </div>
+                </form>
+            </section>
+
+            <div class="stats-grid">
+                <section class="stats-card list-card">
+                    <div class="card-header">
+                        <span class="badge">Raw Data</span>
+                        <h2>추천 상세 내역</h2>
+                    </div>
+
+                    <div class="table-scroll">
+                        <table class="soul-table {% if not is_filtered %}hide-mbti{% endif %}">
+                            <thead>
+                                <tr>
+                                    <th>MBTI</th>
+                                    <th>동물</th>
+                                    <th>인원</th>
+                                    <th>상세</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in animal_one %}
+                                <tr>
+                                    <td class="mbti-col">{{ i[0] }}</td>
+                                    <td class="animal-name">{{ i[1] }}</td>
+                                    <td class="count-num">{{ i[2] }}명</td>
+                                    <td>
+                                        <button class="btn-detail"
+                                            onclick="Group_btn('{{ i[0]|escape }}', '{{ i[1]|escape }}')">보기</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="percentResult" class="stats-card visual-card">
+                    <div class="loading">통계 데이터를 불러오는 중입니다...</div>
+                </section>
+            </div>
+
+            <div class="bottom-actions">
+                <button class="btn-home" onclick="location.href='/Login'">메인 화면으로 돌아가기</button>
+            </div>
+        </main>
+
+        <!-- 3. 푸터: main 바깥에 위치하여 항상 하단에 배치[cite: 2] -->
+        <footer class="footer">
+            <div class="footer-container">
+                <p class="copyright">Copyright © 2026 SoulPaw All Rights Reserved.</p>
+            </div>
+        </footer>
+
+    </div> <!-- wrapper 닫기 -->
+
+    <script>
+        function renderVisualStats(rawData) {
+            const resultDiv = document.getElementById("percentResult");
+            if (!resultDiv) return;
+
+            const isFiltered = {{ is_filtered | tojson }};
+            let title = isFiltered ? "MBTI 조합별 비중" : "전체 동물 통합 점유율";
+            let displayData = [];
+
+            if (isFiltered) {
+                displayData = rawData.map(item => [`${item[0]}-${item[1]}`, item[2]]);
+            } else {
+                const animalMap = new Map();
+                rawData.forEach(item => {
+                    const animal = item[1];
+                    const count = item[2];
+                    animalMap.set(animal, (animalMap.get(animal) || 0) + count);
+                });
+                displayData = Array.from(animalMap.entries());
+            }
+
+            const total = displayData.reduce((a, b) => a + b[1], 0);
+
+            let html = `
+            <div class="card-header">
+                <span class="badge orange">Visual Chart</span>
+                <h2>${title}</h2>
+            </div>
+            <div class="total-banner">
+                <span class="label">Total Samples</span>
+                <span class="value">${total}</span>
+            </div>
+            <div class="chart-box">
+            `;
+
+            if (total === 0) {
+                html += "<div class='no-data'>집계된 데이터가 없습니다.</div>";
+            } else {
+                displayData.sort((a, b) => b[1] - a[1]);
+                displayData.forEach(([label, count]) => {
+                    const percent = ((count / total) * 100).toFixed(1);
+                    html += `
+                    <div class="chart-item">
+                        <div class="chart-info">
+                            <span class="c-label">${label}</span>
+                            <span class="c-percent">${percent}% <small>(${count}명)</small></span>
+                        </div>
+                        <div class="c-bar-track">
+                            <div class="c-bar-fill" style="width: ${percent}%"></div>
+                        </div>
+                    </div>`;
+                });
+            }
+            resultDiv.innerHTML = html + "</div>";
+        }
+
+        function Group_btn(mbti, animal) {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/Ani_in";
+            const add = (n, v) => {
+                const i = document.createElement("input");
+                i.type = "hidden"; i.name = n; i.value = v;
+                form.appendChild(i);
+            };
+            add("MBTI", mbti);
+            add("animal", animal);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        function MBTI_submit() {
+            const val = document.getElementById("US_MBTI_hidden").value;
+            if (!val) {
+                alert("MBTI를 선택해주세요.");
+                return;
+            }
+            document.getElementById("sub").submit();
+        }
+
+        function initSelect() {
+            const select = document.querySelector(".custom-select-mbti");
+            const selected = select.querySelector(".select-selected");
+            const items = select.querySelector(".select-items");
+            const searchInput = select.querySelector(".select-search-input");
+            const hidden = document.getElementById("US_MBTI_hidden");
+
+            const rawOptions = {{ animal_select | tojson }};
+            const options = Array.from(new Set(rawOptions.map(item => item[0])));
+
+            options.forEach(mbti => {
+                const div = document.createElement('div');
+                div.className = "mbti-option";
+                div.textContent = mbti;
+                div.style.padding = "10px";
+                div.style.cursor = "pointer";
+
+                div.onclick = (e) => {
+                    e.stopPropagation();
+                    selected.textContent = mbti;
+                    hidden.value = mbti;
+                    select.classList.remove("active");
+                };
+                items.appendChild(div);
+            });
+
+            searchInput.addEventListener('input', function (e) {
+                const filterValue = e.target.value.toUpperCase();
+                const optionDivs = items.querySelectorAll(".mbti-option");
+                optionDivs.forEach(opt => {
+                    const text = opt.textContent.toUpperCase();
+                    opt.style.display = text.includes(filterValue) ? "" : "none";
+                });
+            });
+
+            searchInput.onclick = (e) => e.stopPropagation();
+            selected.onclick = (e) => {
+                e.stopPropagation();
+                select.classList.toggle("active");
+                if (select.classList.contains("active")) searchInput.focus();
+            };
+            document.addEventListener("click", () => select.classList.remove("active"));
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initSelect();
+            renderVisualStats({{ animal_one | tojson }});
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SoulPaw | 커뮤니티</title>
+    <!-- [수정] 모바일에서 화면 비율이 깨지지 않도록 메타 태그 보강 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='board.css') }}">
+</head>
+
+<body>
+    <!-- 1. 푸터 고정을 위한 wrapper 시작 -->
+    <div id="wrapper">
+
+        <header class="header-area">
+            <div class="header-container">
+                <!-- [수정] 로고 영역을 묶어서 모바일 레이아웃 고정 -->
+                <div class="logo-text-only" onclick="document.location.href='/Login'" style="display: flex; align-items: center; cursor: pointer; gap: 10px;">
+                    <div class="logo-text-only">SoulPaw</div>
+                </div>
+                <!-- ⚠️ [수정] info.html과 동일하게 모바일 중앙 정렬 및 이미지 최적화 대응 -->
+                <div class="header-logo-center" style="display: flex; justify-content: center; align-items: center; cursor: pointer;" onclick="document.location.href='/Login'">
+                    <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 60px; max-width: 100%; height: auto;" alt="Soul Paw Image">
+                </div>
+                <div class="auth-logged-in">
+                    <span class="user-welcome"><b>{{ US_name }}</b>님 안녕하세요</span>
+                    <button class="logout-btn" onclick="document.location.href='/Logout'">로그아웃</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. 게시판 컨텐츠 영역 -->
+        <main class="board-container">
+            <h2>🐾 SoulPaw 소통 게시판</h2>
+
+            <!-- [수정] table-responsive와 soul-table 클래스로 모바일 제어 -->
+            <div class="table-responsive">
+                <table class="soul-table">
+                    <thead>
+                        <tr>
+                            <!-- [수정] 모바일에서 숨길 열에 col-mobile-hide 클래스 추가 -->
+                            <th class="col-mobile-hide" style="width: 80px;">번호</th>
+                            <th class="col-title">제목</th>
+                            <th style="width: 100px;">작성자</th>
+                            <th class="col-mobile-hide" style="width: 150px;">작성일시</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in board_main %}
+                        <tr>
+                            <!-- [수정] 번호 숨김 -->
+                            <td class="col-mobile-hide">{{ post.bono }}</td>
+                            <!-- [수정] 제목(동물 이름 등) 영역 강조 -->
+                            <td class="col-title" style="text-align: left;">
+                                <a href="/detail/{{ post.bono }}">
+                                    {{ post.board_title }}
+                                </a>
+                            </td>
+                            <td>{{ post.name }}</td>
+                            <!-- [수정] 작성일시 숨김 -->
+                            <td class="col-mobile-hide" style="color: #8c7b6c; font-size: 13px;">{{ post.board_date }}</td>
+                        </tr>
+                        {% endfor %}
+                        
+                        {% if not board_main %}
+                        <tr>
+                            <td colspan="4" style="padding: 50px; color: #999;">등록된 게시글이 없습니다.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                {% set endpoint = 'search' if keyword else 'board' %}
+                
+                {% if page > 1 %}
+                    <a href="{{ url_for(endpoint, keyword=keyword, page=page-1) }}" class="p-btn">이전</a>
+                {% endif %}
+
+                {% for p in range(1, total_pages + 1) %}
+                    {% if p == page %}
+                        <strong class="p-btn active">{{ p }}</strong>
+                    {% else %}
+                        <a href="{{ url_for(endpoint, keyword=keyword, page=p) }}" class="p-btn">{{ p }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page < total_pages %}
+                    <a href="{{ url_for(endpoint, keyword=keyword, page=page+1) }}" class="p-btn">다음</a>
+                {% endif %}
+            </div>
+
+            <!-- 액션 바 -->
+            <div class="action-bar">
+                <form action="/board/search" method="get" class="search-box">
+                    <input type="text" name="keyword" placeholder="궁금한 게시글 검색" value="{{ keyword or '' }}" required class="search-input" />
+                    <button type="submit" class="search-btn">검색</button>
+                </form>
+                
+                <a href="/write" class="write-btn">새 글 작성 ✨</a>
+            </div>
+
+            {% if keyword %}
+                <div class="action-bar" style="justify-content: flex-start; margin-top: 15px;">
+                    <a href="/board" class="btn-list-back">목록으로 돌아가기</a>
+                </div>
+            {% endif %}
+        </main>
+
+        <!-- 3. 푸터 영역 -->
+        <footer class="footer">
+            <p class="copyright">Copyright © 2026 SoulPaw All Rights Reserved.</p>
+        </footer>
+
+    </div> <!-- wrapper 끝 -->
+</body>
+</html>

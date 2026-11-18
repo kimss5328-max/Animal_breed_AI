@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='FindAuth.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정보 찾기 - SoulPaw</title>
+</head>
+<body>
+<div id="wrapper">
+    <header class="header-area">
+        <div class="header-container">
+            <div class="logo-text-only" onclick="location.href='/Login'">SoulPaw</div>
+        </div>
+        <div style="text-align : center;" onclick="document.location.href='/Login'">
+                <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 80px;"
+                    alt="Soul Paw Image">
+            </div>
+    </header>
+
+    <main class="main-content find-container">
+        <section class="find-card">
+            <div class="find-tabs">
+                <button class="tab-btn active" onclick="openTab('findId')">아이디 찾기</button>
+                <button class="tab-btn" onclick="openTab('findPw')">비밀번호 찾기</button>
+            </div>
+            <div id="findId" class="tab-content active">
+                {% if step == "email" %}
+                <div class="find-header">
+                    <h3>가입 시 등록한 이메일로 찾기</h3>
+                </div>
+                <form action="/find_id_send" method="POST" class="find-form">
+                    <div class="form-group">
+                        <label>이메일</label>
+                        <input type="email" name="user_email" placeholder="example@soulpaw.com" required>
+                    </div>
+                    <button type="submit" class="find-submit-btn">인증번호 받기</button>
+                </form>
+                {% endif %}
+                {% if step == "auth" %}
+                <div class="find-header">
+                    <h3>인증번호 입력</h3>
+                    <p>이메일로 받은 6자리 코드를 입력하세요</p>
+                </div>
+
+                <form action="/find_id_confirm" method="POST" class="find-form">
+                    <div class="form-group">
+                        <input type="text" name="auth_code" placeholder="000000" required>
+                    </div>
+
+                    <div class="resend-wrapper" style="text-align: right; margin: -5px 0 15px 0;">
+                        <button type="button" onclick="resendCode()" style="background: none; border: none; color: #888; text-decoration: underline; font-size: 14px; cursor: pointer;">
+                            인증번호 재발송
+                        </button>
+                    </div>
+
+                    <button type="submit" class="find-submit-btn">확인</button>
+                </form>
+                {% endif %}
+                {% if step == "result" %}
+                <div class="find-header" style="text-align: center;">
+                    <h3>아이디 찾기 결과</h3>
+                </div>
+
+                <div class="result-box" style="text-align: center;">
+                    <p>회원님의 아이디는</p>
+                    <h2 style="color: black;">{{ user_id }}</h2>
+                    <button onclick="document.location.href='/'" class="find-submit-btn">로그인하러 가기</button>
+                </div>
+                {% endif %}
+
+            </div>
+            <div id="findPw" class="tab-content">
+                <div class="find-header">
+                    <h3>임시 비밀번호 발급</h3>
+                </div>
+            {% if step == "email" %}
+                <form action="/find_pw" method="POST" class="find-form">
+                    <div class="form-group">
+                        <label>아이디</label>
+                        <input type="text" name="user_id" required>
+                    </div>
+                    <div class="form-group">
+                        <label>이메일</label>
+                        <input type="email" name="user_email" placeholder="example@soulpaw.com" required>
+                    </div>
+                    <button type="submit" class="find-submit-btn">비밀번호 재설정</button>
+                </form>
+            </div>
+            {% endif %}
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <script>alert("{{ message }}")</script>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% if step == "pw_auth" %}
+        <div class="find-header">
+            <h3>비밀번호 재설정</h3>
+            <p>이메일로 받은 인증코드 입력</p>
+        </div>
+
+        <form action="/reset_pw" method="POST" class="find-form">
+            <input type="text" name="reset_code" placeholder="인증코드" required>
+            <input type="password" name="new_pw" placeholder="새 비밀번호" required>
+
+            <div class="resend-wrapper" style="text-align: right; margin: -5px 0 15px 0;">
+                <button type="button" onclick="resendPwCode()" style="background: none; border: none; color: #888; text-decoration: underline; font-size: 14px; cursor: pointer;">
+                    인증코드 재발송
+                </button>
+            </div>
+            
+            <button type="submit">변경</button>
+        </form>
+        {% endif %}
+
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Copyright © 2026 SoulPaw All Rights Reserved.</p>
+    </footer>
+</div>
+
+<script>
+// 페이지 로딩 완료 시 실행
+window.onload = function() {
+    const currentStep = "{{ step }}";
+    
+    // 서버에서 받은 step이 비밀번호 재설정 단계라면 findPw 탭을 엽니다.
+    if (currentStep === "pw_auth" || currentStep === "pw_result") {
+        openTab('findPw');
+    }
+};
+
+function openTab(tabName) {
+    const contents = document.querySelectorAll('.tab-content');
+    const buttons = document.querySelectorAll('.tab-btn');
+
+    // 모든 컨텐츠와 버튼의 활성화 클래스 제거
+    contents.forEach(c => c.classList.remove('active'));
+    buttons.forEach(b => b.classList.remove('active'));
+
+    // 선택된 탭 활성화
+    const targetTab = document.getElementById(tabName);
+    if (targetTab) {
+        targetTab.classList.add('active');
+    }
+
+    // 클릭된 버튼(또는 해당 탭에 맞는 버튼) 활성화
+    buttons.forEach(btn => {
+        if (btn.getAttribute('onclick').includes(tabName)) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+function resendCode() {
+    fetch('/find_id_resend', {
+        method: 'POST'
+    })
+    .then(response => {
+        if (response.status === 200) {
+            alert("인증번호가 재발송되었습니다. 메일함을 확인해주세요!");
+        } else if (response.status === 400) {
+            alert("시간이 만료되었습니다. 처음부터 다시 진행해주세요.");
+            location.reload(); // 세션 만료 시 첫 이메일 단계로 깔끔하게 원위치
+        } else {
+            alert("메일 발송 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("서버와 통신할 수 없습니다.");
+    });
+}
+function resendPwCode() {
+    fetch('/find_pw_resend', {
+        method: 'POST'
+    })
+    .then(response => {
+        if (response.status === 200) {
+            alert("비밀번호 재설정 코드가 재발송되었습니다. 메일함을 확인해주세요!");
+        } else if (response.status === 400) {
+            alert("세션이 만료되었습니다. 처음부터 다시 진행해주세요.");
+            location.reload();
+        } else {
+            alert("메일 발송 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("서버와 통신할 수 없습니다.");
+    });
+}
+
+</script>
+
+</body>
+</html>

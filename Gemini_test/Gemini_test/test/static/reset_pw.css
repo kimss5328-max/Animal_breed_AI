@@ -1,0 +1,88 @@
+/* --- 1. 전체 배경 및 레이아웃 --- */
+body {
+    font-family: "Pretendard", sans-serif;
+    background-color: #fcfaf8; /* SoulPaw 시그니처 배경색 */
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- 2. 카드형 폼 컨테이너 --- */
+.login-form {
+    background: #ffffff;
+    padding: 50px 40px;
+    border-radius: 24px; /* 둥근 모서리 */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05); /* 부드러운 그림자 */
+    width: 100%;
+    max-width: 420px;
+    border-collapse: separate;
+    border-spacing: 0 12px; /* 행 사이 간격 */
+    text-align: center;
+}
+
+/* --- 3. 타이틀 디자인 --- */
+h3 {
+    font-size: 1.7em;
+    font-weight: 800;
+    color: #4b3621; /* SoulPaw 딥 브라운 */
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+/* --- 4. 입력창(Input) 디자인 --- */
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 16px 20px;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    background-color: #f9f9f9;
+}
+
+/* 입력창 포커스 효과 */
+.login-form input:focus {
+    outline: none;
+    border-color: #ff8c00; /* SoulPaw 오렌지 */
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+}
+
+/* --- 5. 전송 버튼 디자인 --- */
+.login-form input[type="submit"] {
+    width: 100%;
+    padding: 18px;
+    background-color: #ff8c00;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.login-form input[type="submit"]:hover {
+    background-color: #e67e00;
+    transform: translateY(-2px); /* 살짝 떠오르는 효과 */
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.2);
+}
+
+/* --- 6. 추가 안내 텍스트(선택사항) --- */
+.login-form td {
+    position: relative;
+}
+
+/* 힌트 텍스트 스타일 (필요 시 활용) */
+.hint-text {
+    font-size: 0.8em;
+    color: #aaa;
+    margin-top: 5px;
+    display: block;
+}

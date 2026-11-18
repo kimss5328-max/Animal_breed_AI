@@ -1,0 +1,503 @@
+/* =========================================
+   1. 공통 변수 및 초기화
+   ========================================= */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+    --primary: #ff8c00;          /* 소울포 오렌지 */
+    --primary-hover: #e67e00;
+    --dark: #4b3621;              /* 소울포 브라운 */
+    --bg-light: #fcfaf8;          /* 배경 아이보리 */
+    --text-main: #2d241e;
+    --text-muted: #909399;
+    --border: #eaeaea;
+    --white: #ffffff;
+    --black: #1a1a1a;            /* 푸터 배경 */
+}
+
+/* 하단 고정을 위한 설정 및 모바일 오버플로우 방지 */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: none; /* 모바일 자동 텍스트 확대 방지 */
+    overflow-x: hidden;             /* 가로 스크롤 원천 차단 */
+}
+
+/* 전역 박스 사이징 적용으로 패딩 깨짐 방지 */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: "Pretendard", sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.6;
+    word-break: keep-all; /* 한글 단어 끊김 방지 */
+}
+
+/* --- 2. 헤더 레이아웃 (반응형 대응 및 중앙 정렬 강화) --- */
+.header-area {
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    width: 100%;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    gap: 10px;
+}
+
+/* 양쪽 영역의 정렬 균형감을 맞추기 위한 베이스 구조 */
+.logo-wrapper, .header-auth-zone {
+    flex: 1;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.logo-text-only {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--dark);
+    letter-spacing: -1px;
+    white-space: nowrap;
+}
+
+/* 🐾 HTML 템플릿에 맞춘 중앙 엠블럼 로고 영역 */
+.header-logo-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-logo-center img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* 헤더 우측 유저 세션 */
+.header-auth-zone {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.auth-logged-in {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-welcome {
+    font-size: 13px;
+    color: var(--text-main);
+    white-space: nowrap;
+}
+
+.user-welcome b { color: var(--primary); }
+
+.logout-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background-color: var(--white);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   3. 메인 콘텐츠 (게시판 컨테이너)
+   ========================================= */
+.board-container {
+    flex: 1; 
+    width: 90%;
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 30px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(75, 54, 33, 0.05);
+    border: 1px solid #f2e8df;
+}
+
+.board-container h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--dark);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+/* --- 4. 테이블 디자인 --- */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 500px; /* PC에서는 너무 좁아지지 않게 */
+}
+
+th {
+    background-color: #fdf8f4;
+    color: var(--dark);
+    font-size: 14px;
+    padding: 12px;
+    border-bottom: 2px solid #ffefe0;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #f9f4f0;
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+}
+
+tr:hover { background-color: #fffaf5; }
+
+/* 제목 링크 스타일 */
+td a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+
+/* --- 5. 액션 바 (검색 및 버튼) --- */
+.action-bar {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.search-box {
+    display: flex;
+    flex: 1;
+    min-width: 250px;
+    gap: 5px;
+    background: #fdfaf8;
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid #ffefe0;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 8px 12px;
+    outline: none;
+    font-size: 14px;
+}
+
+.search-btn {
+    background-color: var(--dark);
+    color: var(--white);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.write-btn {
+    background: linear-gradient(135deg, var(--primary) 0%, #ffae42 100%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(255, 140, 0, 0.2);
+}
+
+
+/* --- 6. 페이지네이션 스타일 --- */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.p-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 1px solid #eee;
+}
+
+.p-btn.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 10px rgba(255, 140, 0, 0.2);
+}
+
+
+/* =========================================
+   7. 상세보기 및 댓글
+   ========================================= */
+.detail-info-card {
+    background-color: #fdfaf8;
+    border: 1px solid #ffefe0;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.detail-row {
+    display: flex;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ffefe0;
+    font-size: 14px;
+}
+
+.post-content-area {
+    background-color: var(--white);
+    border: 1px solid #f2e8df;
+    border-radius: 15px;
+    padding: 20px;
+    min-height: 200px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ffefe0;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.btn-comment-submit {
+    align-self: flex-end;
+    width: 100%; 
+    padding: 12px;
+    background: var(--dark);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   8. 푸터 및 버튼 그룹
+   ========================================= */
+.footer {
+    background-color: var(--black);
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: auto;
+    width: 100%;
+}
+
+.copyright { color: #888; font-size: 12px; margin: 0; }
+
+.detail-actions {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+}
+
+.right-btns {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+}
+
+.btn {
+    flex: 1; 
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn-list { background: #f4f4f5; color: #606266; border: 1px solid #dcdfe6; }
+.btn-edit { background: var(--primary); color: white; }
+.btn-delete { background: #fff1f0; color: #f56c6c; border: 1px solid #ffccc7; }
+
+
+/* =========================================
+   9. ★ 미디어 쿼리: 모바일 화면 완벽 최적화 (768px 이하)
+   ========================================= */
+@media (max-width: 768px) {
+    /* [보완] 모바일 헤더 3구역 정렬 무너짐 방지 */
+    .header-container {
+        padding: 0 10px !important;
+        gap: 5px !important;
+    }
+    
+    .logo-text-only {
+        font-size: 1.15rem !important;
+        flex: 1;
+    }
+    
+    .header-logo-center {
+        flex: 1;
+    }
+    
+    .header-logo-center img {
+        width: 65px !important; /* 모바일 크기에 맞는 로고 축소 */
+    }
+
+    .header-auth-zone {
+        flex: 1;
+    }
+
+    .user-welcome {
+        display: none !important; /* 글자 겹침 방지 */
+    }
+    
+    .logout-btn {
+        padding: 5px 8px !important;
+        font-size: 10px !important;
+    }
+
+    /* 컨테이너 여백 최적화 */
+    .board-container {
+        width: 95% !important;
+        padding: 15px !important;
+        margin: 20px auto !important;
+        border-radius: 14px !important;
+    }
+    
+    .board-container h2 {
+        font-size: 1.4rem !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* 테이블 가로 스크롤 및 깨짐 방지 고정 구조 */
+    .col-mobile-hide {
+        display: none !important;
+    }
+
+    .table-responsive {
+        border: none !important;
+        overflow-x: hidden !important;
+    }
+
+    table {
+        min-width: 100% !important;
+        table-layout: fixed !important;
+    }
+
+    th, td {
+        padding: 10px 4px !important;
+        font-size: 13px !important;
+    }
+
+    .col-title {
+        width: 65% !important;
+        text-align: left !important;
+        padding-left: 5px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    table td:nth-child(3) {
+        width: 35% !important;
+    }
+
+    /* 액션 바 세로 정렬 가득 차게 설정 */
+    .action-bar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+    }
+
+    .search-box {
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+
+    .write-btn {
+        width: 100% !important;
+    }
+
+    /* 대댓글(무한루프) 모바일 내부 마진 붕괴 차단 */
+    .comment-section ul li div {
+        margin-left: 0 !important; /* 모바일에서는 과도한 마진 누적 초기화 */
+        padding-left: 8px !important;
+    }
+    
+    /* 대댓글 단계 구분을 위해 미세한 인덴트 한계치 설정 (최대 30px) */
+    .comment-section ul li div[style*="margin-left"] {
+        margin-left: min(15px, 4vw) !important; 
+    }
+
+    /* 모바일 버튼 컴팩트화 */
+    .detail-actions {
+        flex-direction: column !important;
+    }
+    
+    .right-btns {
+        flex-direction: row !important;
+    }
+}

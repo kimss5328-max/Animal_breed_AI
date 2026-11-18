@@ -1,0 +1,153 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+    --primary: #ff8c00;
+    --primary-dark: #e67e00;
+    --primary-light: #fff0e6;
+    --dark-brown: #4b3621;
+    --bg-color: #fcfaf8;
+    --white: #ffffff;
+    --border-color: #f2e8df;
+    --text-muted: #8c7b6c;
+    --footer-bg: #222222; /* 소울포 다크 푸터 배경 */
+    --footer-text: #888888; /* 푸터 글자색 */
+}
+
+/* 1. 푸터 하단 고정을 위한 레이아웃 초기화 */
+html, body {
+    height: 100%; /* 전체 높이 확보 */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Pretendard", sans-serif;
+    background-color: var(--bg-color);
+    color: #333;
+    line-height: 1.6;
+}
+
+/* 2. Flexbox 컨테이너 설정 */
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 브라우저 높이만큼 최소 높이 설정 */
+}
+
+/* 헤더 */
+.header-area { 
+    background: var(--white); 
+    border-bottom: 1px solid var(--border-color); 
+    padding: 15px 40px; 
+}
+.header-container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+.logo-text-only { 
+    font-size: 1.8em; 
+    font-weight: 900; 
+    color: var(--dark-brown); 
+    cursor: pointer; 
+}
+.logout-btn { 
+    padding: 5px 12px; 
+    border: 1px solid #ddd; 
+    background: #fff; 
+    cursor: pointer; 
+    border-radius: 5px; 
+}
+
+.header-auth-zone { text-align: right; }
+.auth-logged-in { display: flex; align-items: center; gap: 15px; }
+.user-welcome { font-size: 14px; color: #555; }
+.user-welcome b { color: var(--primary); }
+
+/* 3. 메인 콘텐츠: 남은 공간을 모두 차지하도록 flex: 1 적용 */
+.main-content-container { 
+    flex: 1; /* 푸터를 바닥으로 밀어내는 핵심 설정[cite: 2] */
+    padding: 40px 20px; 
+}
+
+.container {
+    max-width: 1000px; 
+    margin: 0 auto; 
+    background: var(--white);
+    padding: 40px; 
+    border-radius: 30px; 
+    border: 1px solid var(--border-color);
+    box-shadow: 0 15px 35px rgba(75, 54, 33, 0.05);
+}
+
+.main-title { 
+    text-align: center; 
+    font-size: 1.8em; 
+    font-weight: 800; 
+    margin-bottom: 40px; 
+}
+
+/* 그리드 레이아웃 */
+.main-layout-row { display: flex; gap: 40px; flex-wrap: wrap; }
+.form-inputs-section { flex: 1.2; min-width: 300px; }
+.recommendation-area { flex: 0.8; min-width: 280px; }
+
+/* 입력 필드 및 결과 뷰 */
+.form-group { margin-bottom: 20px; }
+.form-group label { margin-bottom: 8px; font-weight: 600; font-size: 15px; display: block; }
+.styled-input {
+    width: 100%; padding: 14px; border: 1.5px solid var(--border-color);
+    border-radius: 12px; font-size: 15px; box-sizing: border-box;
+}
+
+.result-view {
+    background-color: #f9f9f9 !important;
+    border-color: #eee !important;
+    color: var(--text-muted) !important;
+    cursor: default;
+}
+
+/* 드롭다운 */
+.custom-select { position: relative; }
+.select-selected { padding: 14px; border: 1.5px solid var(--border-color); border-radius: 12px; background: #fff; cursor: pointer; position: relative; }
+.select-selected:after { content: '▾'; position: absolute; right: 15px; color: #ccc; }
+.select-items { position: absolute; background: white; border: 1px solid var(--border-color); width: 100%; z-index: 99; border-radius: 12px; margin-top: 5px; max-height: 200px; overflow-y: auto; display: none; }
+.custom-select.active .select-items { display: block; }
+.select-items div { padding: 12px; cursor: pointer; }
+.select-items div:hover { background: var(--primary-light); color: var(--primary); }
+
+/* 버튼 */
+.submit-button, .main-page-button { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; margin-bottom: 10px; transition: 0.3s; }
+.submit-button { background: var(--primary); color: white; }
+.submit-button:hover { background: var(--primary-dark); transform: translateY(-2px); }
+.submit-button.re-test { background: var(--dark-brown); }
+.main-page-button { background: #f0f0f0; color: #666; }
+
+/* 결과 카드 */
+.summary-card { padding: 25px; border-radius: 20px; border: 1.5px dashed var(--border-color); background: #fdfdfd; text-align: center; }
+.active-result { background: var(--primary-light) !important; border: 2px solid var(--primary) !important; }
+.summary-title { font-weight: 800; color: var(--primary); margin-top: 0; }
+.summary-content span { font-weight: 900; color: var(--dark-brown); font-size: 1.2em; }
+
+/* 상세 리포트 */
+.detail-content { background: #f9f9f9; padding: 25px; border-radius: 20px; border: 1px solid #eee; min-height: 100px; color: var(--text-muted); }
+.detail-content.has-text { background: #fff !important; color: var(--dark-brown) !important; line-height: 1.8; white-space: pre-wrap; border: 1.5px solid var(--primary-light); }
+
+/* 로딩 스피너 */
+#loading-spinner { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; }
+.spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* 4. 최종 수정: SoulPaw 다크 푸터 고정 스타일 */
+.main-footer { 
+    text-align: center; 
+    padding: 40px 0; 
+    background-color: var(--footer-bg); /* 검은색 배경[cite: 2] */
+    color: var(--footer-text); /* 회색 글자[cite: 2] */
+    font-size: 13px;
+    width: 100%;
+    border-top: 1px solid #333;
+}
+.main-footer p { margin: 0; }

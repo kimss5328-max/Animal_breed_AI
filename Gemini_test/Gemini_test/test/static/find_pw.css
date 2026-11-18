@@ -1,0 +1,149 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+/* --- 1. 기본 배경 및 초기화 --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Pretendard", sans-serif;
+    background-color: #fcfaf8; /* SoulPaw 특유의 따뜻한 배경색 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- 2. 카드형 폼 컨테이너 --- */
+.login-form {
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(75, 54, 33, 0.06); /* 부드러운 초콜릿 브라운 톤 그림자 */
+    width: 100%;
+    max-width: 430px;
+    overflow: hidden; /* 상단 탭 모서리 잘림 방지 */
+    border: 1px solid #f2e8df;
+}
+
+/* --- 3. 상단 탭 메뉴 디자인 --- */
+.find-tabs {
+    display: flex;
+    width: 100%;
+    background-color: #f7f5f2;
+    border-bottom: 2px solid #ff8c00;
+}
+
+.find-tabs .tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 18px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #a0968f;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.find-tabs .tab-btn.active {
+    background-color: #ffffff;
+    color: #ff8c00; /* 액티브 오렌지 */
+}
+
+/* --- 4. 내부 레이아웃 패딩 --- */
+.find-content-inner {
+    padding: 40px 30px;
+}
+
+/* --- 5. 타이틀 및 안내 텍스트 --- */
+.step-container h3 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #4b3621; /* SoulPaw 초콜릿 브라운 */
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+    text-align: left;
+}
+
+.find-sub-title {
+    font-size: 14px;
+    color: #8c827a;
+    line-height: 1.5;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+/* --- 6. [핵심] 입력창(Input) 무조건 세로 배치 및 100% 확장 --- */
+.input-group {
+    display: flex !important;
+    flex-direction: column !important; /* 강제로 세로 정렬 */
+    gap: 12px; /* 입력창끼리 떨어뜨리는 간격 */
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.input-group input[type="text"],
+.input-group input[type="email"],
+.input-group input[type="password"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 16px 18px !important;
+    border: 1px solid #e6e0da !important;
+    border-radius: 14px !important; /* 둥근 입력창 */
+    font-size: 15px !important;
+    background-color: #faf8f6 !important;
+    color: #2d241e !important;
+    outline: none;
+    transition: all 0.2s ease;
+    display: block !important; /* 가로로 붙는 현상 완벽 차단 */
+}
+
+/* 입력창 클릭(포커스) 효과 */
+.input-group input:focus {
+    border-color: #ff8c00 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1) !important;
+}
+
+/* --- 7. 하단 버튼 그룹 디자인 --- */
+.button-group {
+    display: flex !important;
+    gap: 12px;
+    width: 100% !important;
+}
+
+.button-group input[type="button"] {
+    flex: 1 !important;
+    padding: 16px !important;
+    border: none !important;
+    border-radius: 14px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease;
+    display: block !important;
+}
+
+/* 확인 / 변경 버튼 (SoulPaw 메인 주황색) */
+.button-group .btn-submit {
+    background-color: #ff8c00 !important;
+    color: #ffffff !important;
+}
+.button-group .btn-submit:hover {
+    background-color: #e67e00 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.15);
+}
+
+/* 취소 버튼 (차분한 회색) */
+.button-group .btn-cancel {
+    background-color: #eeeae6 !important;
+    color: #736962 !important;
+}
+.button-group .btn-cancel:hover {
+    background-color: #e2ded9 !important;
+}

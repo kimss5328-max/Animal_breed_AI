@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>SoulPaw | Big Five 분석 결과</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='buffering.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='beer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='BigfiveResults.css') }}">
+</head>
+<body>
+    <!-- 1. [수정] 보내주신 buffering.css 구조에 딱 맞춘 로딩 오버레이 레이어 -->
+    <div id="loading-spinner">
+        <div class="spinner"></div>
+        <div id="loading-message">SoulPaw AI가 새로운 동물을 분석 중입니다...<br>잠시만 기다려주세요 🐾</div>
+    </div>
+
+    <div id="wrapper">
+        <header class="header-area">
+            <div class="header-container">
+                <div class="logo-text-only" onclick="document.location.href='/Login'">SoulPaw</div>
+                <div style="text-align : center;" onclick="document.location.href='/Login'">
+                    <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 80px;" alt="Soul Paw Image">
+                </div>
+                <div class="header-auth-zone">
+                    {% if Login_id %}
+                    <span class="user-welcome"><b>{{ US_name }}</b>님 분석 결과</span>
+                    <button class="logout-btn" onclick="document.location.href='/Logout'">로그아웃</button>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content-container">
+            <div class="container">
+                <h1 class="main-title">🐾 Big Five 정밀 분석 결과</h1>
+                
+                <form>
+                    <div class="main-layout-row"> 
+                        <div class="form-inputs-section">
+                            <div class="form-group">
+                                <label>성격 5요인 분석 (OCEAN)</label>
+                                <div class="ocean-bar-item">
+                                    <div class="ocean-bar-label">
+                                        <span>개방성</span>
+                                        <span>{{ (data.big5.O * 100) | round(0) }}%</span>
+                                    </div>
+                                    <div class="ocean-progress">
+                                        <div class="ocean-fill" style="width: {{ data.big5.O * 100 }}%;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="ocean-bar-item">
+                                    <div class="ocean-bar-label">
+                                        <span>성실성</span>
+                                        <span>{{ (data.big5.C * 100) | round(0) }}%</span>
+                                    </div>
+                                    <div class="ocean-progress">
+                                        <div class="ocean-fill" style="width: {{ data.big5.C * 100 }}%;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="ocean-bar-item">
+                                    <div class="ocean-bar-label">
+                                        <span>외향성</span>
+                                        <span>{{ (data.big5.E * 100) | round(0) }}%</span>
+                                    </div>
+                                    <div class="ocean-progress">
+                                        <div class="ocean-fill" style="width: {{ data.big5.E * 100 }}%;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="ocean-bar-item">
+                                    <div class="ocean-bar-label">
+                                        <span>우호성</span>
+                                        <span>{{ (data.big5.A * 100) | round(0) }}%</span>
+                                    </div>
+                                    <div class="ocean-progress">
+                                        <div class="ocean-fill" style="width: {{ data.big5.A * 100 }}%;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="ocean-bar-item" style="grid-column: span 2;">
+                                    <div class="ocean-bar-label">
+                                        <span>신경증</span>
+                                        <span>{{ (data.big5.N * 100) | round(0) }}%</span>
+                                    </div>
+                                    <div class="ocean-progress">
+                                        <div class="ocean-fill" style="width: {{ data.big5.N * 100 }}%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>거주 환경 정보</label>
+                                <input type="text" class="styled-input result-view" value="{{ data.house }} (마당: {{ data.yard }})" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-area">
+                            <button type="button" onclick="location.href='/Bigfive'" class="submit-button re-test">다시 테스트하기</button>
+                            <button type="button" onclick="handleReRecommend()" class="submit-button re-test">다른 동물 추천받기</button>
+                            <button type="button" onclick="document.location.href='/Login'" class="main-page-button">메인으로 이동</button>
+                            
+                            <div class="summary-card active-result">
+                                <p class="summary-title">추천 결과 요약</p>
+                                <div class="summary-content">
+                                    <p>추천 동물: <span>{{ data.mal }}</span></p>
+                                    <p>품종: <span>{{ data.anibreed }}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-box-container">
+                        <label>Big Five 맞춤 상세 리포트</label>
+                        <div class="detail-content has-text" style="white-space: pre-wrap;">{% if data.Text and data.Text.strip() %}{{ data.Text|trim  }}
+                                  <img src="{{ url_for('static', filename='image/' + mal + '/' + anibreed + '.webp') }}"
+                                alt="{{ anibreed }}"
+                                onerror="this.onerror=null; this.src='{{ url_for('static', filename='image/' + mal + '/' + anibreed + '.jpg') }}';">
+                            {% else %}
+                                <p style="color: #666;">상세 리포트를 생성하지 못했습니다. AI 서버 응답을 확인해주세요.</p>
+                            {% endif %}</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer class="main-footer">
+            <p>Copyright © 2026 SoulPaw All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- 재추천 로직 스크립트 -->
+    <script>
+    function handleReRecommend() {
+        if(!confirm("현재 추천된 품종을 제외하고 새로운 추천을 받으시겠습니까?")) return;
+
+        // 2. [수정] 요청 시작 시 원래 CSS에 정의된 #loading-spinner를 display: flex로 켜기
+        const loadingSpinner = document.getElementById('loading-spinner');
+        if(loadingSpinner) loadingSpinner.style.display = 'flex';
+
+        fetch('/Animalbeer/re_recommend', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(resData => {
+            if (resData.redirectUrl) {
+                // 새로운 추천 결과 페이지로 무사히 리다이렉트 이동
+                window.location.href = resData.redirectUrl;
+            } else {
+                // 실패 시 다시 원래대로 로딩 숨기기
+                if(loadingSpinner) loadingSpinner.style.display = 'none';
+                alert("더 이상 추천할 동물이 없거나 오류가 발생했습니다.");
+            }
+        })
+        .catch(error => {
+            // 통신 에러 발생 시 로딩 숨기기
+            if(loadingSpinner) loadingSpinner.style.display = 'none';
+            console.error('Error:', error);
+            alert("서버 통신 중 오류가 발생했습니다.");
+        });
+    }
+    </script>
+</body>
+</html>

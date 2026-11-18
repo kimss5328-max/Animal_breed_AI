@@ -1,0 +1,80 @@
+/* ===============================
+   레이아웃 컨테이너 (좌/우 배치)
+================================ */
+.main-stats-flex {
+    display: flex;
+    justify-content: center; 
+    /* 🚨 높이 맞추기 위해 stretch로 변경 */
+    align-items: stretch; 
+    gap: 30px;
+    width: 100%;
+    max-width: 1300px; 
+    margin: 20px auto 0 auto;
+}
+
+.data-list-table {
+    min-width: 450px;  /* 기존 600px → 450px 로 축소 (오른쪽 공간 확보) */
+}
+
+/* 스크롤 테이블 */
+.table-container {
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 0;
+}
+
+/* 내부 테이블 */
+.inner-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.main-stats-flex {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.main-stats-flex form {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.inner-table td {
+    text-align: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* 첫 줄 초기화 */
+.inner-table tr:first-child td {
+    font-weight: normal;
+    color: inherit;
+}
+
+/* colspan 라운드 제거 */
+td[colspan="4"] {
+    border-radius: 0 !important;
+    overflow: visible !important;
+}
+.analysis-wrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* ===============================
+   오른쪽 퍼센트 박스
+================================ */
+#percentResult {
+    width: 380px;
+    background: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-size: 16px;
+    text-align: left;
+    flex-shrink: 0; 
+    margin-top: 20px; 
+    margin-bottom: 15px;
+}

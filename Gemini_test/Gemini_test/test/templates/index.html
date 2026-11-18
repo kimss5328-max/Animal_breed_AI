@@ -1,0 +1,145 @@
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	{% for message in messages %}
+	<!--{{ message }}-->
+	<script>		
+		alert('{{message}}')   //이 부분이 중요
+	</script>
+	{% endfor %}
+	{% endif %}
+{% endwith %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Login.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    function LoginBtu() {
+      const US_id = document.getElementById("US_id").value;
+      const US_pw = document.getElementById("US_pw").value;
+      if (US_id != "" && US_pw != ""){
+        US_log.submit();
+      }else if (US_id == ""){
+        alert("아이디를 입력해주세요.");
+      }else{
+        alert("비밀번호를 입력해주세요.");
+      }
+    }
+  </script>
+  <title>
+  로그인
+  </title>
+</head>
+<body>
+    <div id="wrapper">
+        <header class="header-area">
+            <div class="header-container">
+                <div class="logo-text-only" onclick="document.location.href='/'">SoulPaw</div>
+                <div style="text-align : center;" onclick="document.location.href='/'">
+                    <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 80px;" alt="Soul Paw Image" >
+                </div>
+                <div class="header-auth-zone">
+                    {% if Login_id %}
+                        <div class="auth-logged-in">
+                            <span class="user-welcome"><b>{{ US_name }}</b>님 안녕하세요</span>
+                            <button class="logout-btn" onclick="document.location.href='/Logout'">로그아웃</button>
+                        </div>
+                    {% else %}
+                        <div class="auth-logged-out">
+                            <form action="/" method="POST" class="mini-login-form">
+                                <input type="text" name="US_id" placeholder="아이디" required>
+                                <input type="password" name="US_pw" placeholder="비밀번호" required>
+                                <button type="submit">로그인</button>
+                            </form>
+                        <div style="display: flex; gap: 10px; margin: 10px 0; justify-content: center;">   
+                            <a href="{{ url_for('login_google') }}" style="text-decoration: none; flex: 1;">
+                                <button type="button" style="width: 100%; padding: 8px; background-color: white; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #555; white-space: nowrap;">
+                                    <img src="https://developers.google.com/identity/images/g-logo.png" width="14px" style="margin-right: 6px;">
+                                    구글 로그인
+                                </button>
+                            </a>
+                            <a href="{{ url_for('kakao_login') }}" style="text-decoration: none; flex: 1;">
+                                <button type="button" style="width: 100%; padding: 8px; background-color: #FEE500; border: 1px solid #FEE500; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #191919; white-space: nowrap;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" viewBox="0 0 24 24" fill="#191919" style="margin-right: 6px;">
+                                    <path d="M12 3c-5.523 0-10 3.582-10 8 0 2.923 1.956 5.51 4.936 6.941l-1.241 4.547c-.12.439.408.79.782.54l5.378-3.582c.465.035.938.054 1.415.054 5.523 0 10-3.582 10-8s-4.447-8-10-8z"/>
+                                    </svg>
+                                    카카오 로그인
+                                </button>
+                            </a>
+                        </div>
+
+                            <div class="auth-sub-links">
+                                <a href="/NewUser">회원가입</a> · <a href="/FindAuth">정보 찾기</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <section class="main-hero">
+            <div class="hero-inner">
+                <h2>나의 라이프스타일에 맞는<br><span class="highlight">반려동물을 찾아보세요</span></h2>
+                <p>SoulPaw는 당신의 성향과 환경을 분석해 가장 행복한 매칭을 제안합니다.</p>
+            </div>
+        </section>
+
+        <main class="main-content">
+            <section class="card-container">
+                <div class="card {% if not Login_id %}logged-out{% endif %}">
+                    <div class="card-thumb thumb-match"></div>
+                    <h3 class="card-title">동물 추천</h3>
+                    <p class="card-description">나에게 맞는 동물을 추천받으세요.</p>
+                    <input type="button" value="추천받기" onclick="checkLogin('/select_method')" />
+                </div>
+                
+                <div class="card {% if not Login_id %}logged-out{% endif %}">
+                    <div class="card-thumb thumb-info"></div>
+                    <h3 class="card-title">동물 관련 질문</h3>
+                    <p class="card-description">동물에 대한 정보를 찾아보세요.</p>
+                    <input type="button" value="질문하기" onclick="checkLogin('/info')"/>
+                </div>
+
+                <div class="card {% if not Login_id %}logged-out{% endif %}">
+                    <div class="card-thumb thumb-stats"></div>
+                    <h3 class="card-title">추천 동물 통계</h3>
+                    <p class="card-description">다른 사용자들의 추천 통계를 확인하세요.</p>
+                    <input type="button" value="통계 보기" onclick="checkLogin('/Group')" />
+                </div>
+
+                <div class="card {% if not Login_id %}logged-out{% endif %}">
+                    <div class="card-thumb thumb-my"></div>
+                    <h3 class="card-title">내 추천 동물</h3>
+                    <p class="card-description">내가 추천받았던 동물을 확인합니다.</p>
+                    <input type="button" id="US_animal" value="확인하기" onclick="checkLogin('/User_Animal')" />
+                </div>
+
+                <div class="card {% if not Login_id %}logged-out{% endif %}">
+                    <div class="card-thumb thumb-board"></div>
+                    <h3 class="card-title">자유 게시판</h3>
+                    <p class="card-description">다른 사람들과 이야기를 나눠보세요.</p>
+                    <input type="button" id="US_board" value="게시판 가기" onclick="checkLogin('/board')" >
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p>Copyright © 2026 SoulPaw All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        function checkLogin(targetUrl) {
+            const isLoggedIn = "{{ 'true' if Login_id else 'false' }}";
+            if (isLoggedIn === "true") {
+                location.href = targetUrl;
+            } else {
+                alert("로그인 후 이용해 주세요.");
+                const userIdInput = document.querySelector('input[name="user_id"]');
+                if (userIdInput) userIdInput.focus();
+            }
+        }
+    </script>
+</body>
+</html>
+

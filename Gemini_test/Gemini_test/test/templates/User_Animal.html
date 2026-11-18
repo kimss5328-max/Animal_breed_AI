@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <title>SoulPaw | {{User_id}}님의 리스트</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Users_Animal.css') }}">
+</head>
+
+<body>
+    <!-- 1. 전체 요소를 감싸는 wrapper 추가 (CSS flex와 연동) -->
+    <div id="wrapper">
+
+        <header class="header-area">
+            <div class="header-container">
+                <div class="logo-text-only" onclick="document.location.href='/Login'">
+                    SoulPaw</div>
+                <div style="text-align : center;" onclick="document.location.href='/Login'">
+                    <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 80px;"
+                        alt="Soul Paw Image">
+                </div>
+                <div class="auth-logged-in">
+                    <span class="user-welcome"><b>{{ US_name }}</b>님 안녕하세요</span>
+                    <button class="logout-btn" onclick="document.location.href='/Logout'">로그아웃</button>
+                </div>
+            </div> <!-- 헤더 컨테이너 닫기 보완 -->
+        </header>
+
+        <!-- 2. 본문 영역: flex: 1 설정으로 푸터를 아래로 밀어냄 -->
+        <main class="content-wrapper">
+            <div class="user-card">
+                <div class="card-header">
+                    <span class="badge">My Soulmate List</span>
+                    <h2>{{User_id}}님의 <span>추천 동물 5</span></h2>
+                </div>
+
+                <table class="list-table">
+                    {% if not list %}
+                    <tr>
+                        <td colspan="3" class="empty-box">
+                            추천받은 동물이 없습니다.<br>
+                            소울포와 함께 당신의 소울메이트를 찾아보세요!
+                        </td>
+                    </tr>
+                    {% else %}
+                    <thead>
+                        <tr>
+                            <th>동물</th>
+                            <th>품종</th>
+                            <th>추천 날짜</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in list %}
+                        <tr>
+                            <td class="animal-type">{{ i[0] }}</td>
+                            <td class="animal-breed">{{ i[1] }}</td>
+                            <td class="recommend-date">{{ i[2] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% endif %}
+                </table>
+
+                <input type="button" class="btn-main" onclick="document.location.href='/Login'" value="메인으로 돌아가기" />
+            </div>
+        </main>
+
+        <!-- 3. 푸터: content-wrapper 바깥에 위치 -->
+        <footer class="footer">
+            <div class="footer-container"> <!-- 일관성을 위해 컨테이너 유지 가능 -->
+                <p class="copyright">Copyright © 2026 SoulPaw All Rights Reserved.</p>
+            </div>
+        </footer>
+
+    </div> <!-- wrapper 닫기 -->
+
+</body>
+
+</html>

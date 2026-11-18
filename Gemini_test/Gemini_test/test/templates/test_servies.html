@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SoulPaw 배포 테스트 안내</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Pretendard', sans-serif;
+    }
+
+    body{
+      background:#f7f9fc;
+      color:#222;
+      line-height:1.7;
+    }
+
+    .container{
+      width:90%;
+      max-width:1100px;
+      margin:auto;
+      padding:40px 0;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,#6c63ff,#8b7dff);
+      color:white;
+      padding:80px 40px;
+      border-radius:24px;
+      text-align:center;
+      box-shadow:0 10px 30px rgba(0,0,0,0.12);
+      margin-bottom:40px;
+    }
+
+    .hero h1{
+      font-size:3rem;
+      margin-bottom:20px;
+    }
+
+    .hero p{
+      font-size:1.2rem;
+      opacity:0.95;
+    }
+
+    .section{
+      background:white;
+      border-radius:20px;
+      padding:35px;
+      margin-bottom:30px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    }
+
+    .section h2{
+      color:#6c63ff;
+      margin-bottom:20px;
+      font-size:2rem;
+    }
+
+    .section h3{
+      margin-top:20px;
+      margin-bottom:10px;
+      color:#444;
+    }
+
+    /* 핵심 기능 그리드 */
+    .feature-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:20px;
+      margin-top:20px;
+    }
+
+    .feature-card{
+      background:#f4f5ff;
+      padding:25px;
+      border-radius:16px;
+      transition:0.3s;
+    }
+
+    .feature-card:hover{
+      transform:translateY(-5px);
+    }
+
+    .feature-card h3{
+      color:#6c63ff;
+      margin-bottom:10px;
+    }
+
+    /* 📸 서비스 미리보기 그리드 (가로 배치용) */
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .preview-card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .preview-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .preview-card .caption {
+      padding: 10px;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #6c63ff;
+      background: #f4f5ff;
+      border-top: 1px solid #ddd;
+    }
+
+    .preview-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    /* 테이블 스타일 */
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:20px;
+    }
+
+    table th, table td{
+      border:1px solid #ddd;
+      padding:14px;
+      text-align:left;
+    }
+
+    table th{
+      background:#6c63ff;
+      color:white;
+    }
+
+    /* 버튼 그룹 */
+    .button-group{
+      margin-top:30px;
+      display:flex;
+      gap:15px;
+      flex-wrap:wrap;
+      justify-content: center;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:14px 28px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    .btn-primary{
+      background:#6c63ff;
+      color:white;
+    }
+
+    .btn-primary:hover{
+      background:#584ef5;
+    }
+
+    .btn-secondary{
+      background:white;
+      color:#6c63ff;
+      border:2px solid #6c63ff;
+    }
+
+    .btn-secondary:hover{
+      background:#f4f5ff;
+    }
+
+    footer{
+      text-align:center;
+      padding:40px 0;
+      color:#777;
+      font-size:0.95rem;
+    }
+
+    @media(max-width:768px){
+      .preview-grid, .preview-grid-3 { grid-template-columns: 1fr; }
+      .hero h1{ font-size:2rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- 히로 섹션 -->
+    <section class="hero">
+      <h1><img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 80px;" alt="Soul Paw Image">
+        <br> SoulPaw 배포 테스트</h1>
+      <p>
+        당신의 성격과 환경을 분석하여<br>
+        최고의 반려 파트너를 찾아주는 AI 서비스
+      </p>
+
+      <div class="button-group">
+        <a href="http://soulpaw.kro.kr" class="btn btn-secondary">서비스 이용하기</a>
+        <a href="https://docs.google.com/forms/d/1aivyhuplX46_XxFkMarP8GENL28CyBSZ50lPBlzCRdM/edit" class="btn btn-primary" style="background:white; color:#6c63ff;">설문 참여하기</a>
+      </div>
+    </section>
+
+    <!-- 📢 SoulPaw 소개 -->
+    <section class="section">
+      <h2>📢 SoulPaw 소개</h2>
+      <p>
+        SoulPaw(소울포)는 MBTI 및 Big Five(O.C.E.A.N.) 심리학 모델을 기반으로
+        사용자와 가장 잘 맞는 반려동물을 추천하는 AI 서비스입니다.
+      </p>
+      <br>
+      <p>
+        단순 인기 품종 추천이 아니라, 성격 궁합과 실제 생활 환경을 함께 고려하여
+        현실적이고 정서적인 매칭을 제공합니다.
+      </p>
+    </section>
+
+    <!-- 🚀 핵심 기능 -->
+    <section class="section">
+      <h2>🚀 핵심 기능</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🧠 성격 기반 추천</h3>
+          <p>MBTI 또는 Big Five 성격 분석을 통해 사용자와 잘 맞는 반려동물을 추천합니다.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🏠 환경 분석</h3>
+          <p>거주지 형태, 마당 유무 등을 분석하여 현실적으로 케어 가능한 품종을 추천합니다.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📋 추천 히스토리</h3>
+          <p>최근 추천받은 결과를 저장하고 언제든 다시 확인할 수 있습니다.</p>
+        </div>
+        <div class="feature-card">
+          <h3>💬 커뮤니티</h3>
+          <p>질문 게시판을 통해 다른 사용자들과 추천 결과 및 경험을 공유할 수 있습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🧠 Big Five 안내 -->
+    <section class="section">
+      <h2>🧠 Big Five(O.C.E.A.N.) 안내</h2>
+      <table>
+        <thead>
+          <tr><th>성격 요소</th><th>설명</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>개방성 (Openness)</td><td>새로운 경험과 창의성을 선호하는 성향</td></tr>
+          <tr><td>성실성 (Conscientiousness)</td><td>계획성과 책임감, 꾸준한 관리 능력</td></tr>
+          <tr><td>외향성 (Extraversion)</td><td>활동성과 사회적 에너지 수준</td></tr>
+          <tr><td>친화성 (Agreeableness)</td><td>공감 능력과 타인 및 동물과의 조화</td></tr>
+          <tr><td>신경성 (Neuroticism)</td><td>감정 안정성과 스트레스 민감도</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 📋 SoulPaw 서비스 미리보기 (이미지 그리드 적용) -->
+    <section class="section">
+      <h2>📋 SoulPaw 서비스 미리보기</h2>
+
+      <h3>1. 계정 접속 (로그인 전/후)</h3>
+      <div class="preview-grid">
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/로그인_전.png') }}"><div class="caption">로그인 전</div></div>
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/로그인_후.png') }}"><div class="caption">로그인 후</div></div>
+      </div>
+
+      <h3>2. 반려동물 추천 (MBTI & Big Five)</h3>
+      <div class="preview-grid">
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/MBTI_전.png') }}"><div class="caption">MBTI 추천 전</div></div>
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/MBTI_후.png') }}"><div class="caption">MBTI 추천 결과</div></div>
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/BIG5_전.png') }}"><div class="caption">Big Five 추천 전</div></div>
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/BIG5_후.png') }}"><div class="caption">Big Five 추천 결과</div></div>
+      </div>
+
+      <h3>3. 동물 관련 질문 및 통계 분석</h3>
+      <div class="preview-grid">
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/질문_전.png') }}"><div class="caption">동물 관련 질문 전</div></div>
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/질문_후.png') }}"><div class="caption">동물 관련 질문 후</div></div>
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/통계.png') }}"><div class="caption">전체 추천 동물 통계</div></div>
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/통계_상세.png') }}"><div class="caption">통계 상세보기</div></div>
+      </div>
+
+      <h3>4. 히스토리 및 커뮤니티</h3>
+      <div class="preview-grid-3">
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/추천받은동물.png') }}"><div class="caption">추천 받았던 동물</div></div>
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/게시판.png') }}"><div class="caption">커뮤니티 게시판</div></div>
+        <div class="preview-card"><img src="{{ url_for('static', filename='image/게시글_상세.png') }}"><div class="caption">게시글 상세 보기</div></div>
+      </div>
+    </section>
+
+    <!-- 📝 배포 테스트 참여 방법 -->
+    <section class="section">
+      <h2>📝 배포 테스트 참여 방법</h2>
+      <ul style="padding-left:20px;">
+        <li>1️⃣ SoulPaw 접속</li>
+        <li>2️⃣ MBTI 또는 Big Five 선택</li>
+        <li>3️⃣ 거주 환경 입력</li>
+        <li>4️⃣ AI 추천 결과 확인</li>
+        <li>5️⃣ 설문조사 참여 및 피드백 작성</li>
+      </ul>
+
+      <div class="button-group">
+        <a href="http://soulpaw.kro.kr" class="btn btn-primary">🌐 공식 사이트</a>
+        <a href="https://docs.google.com/forms/d/1aivyhuplX46_XxFkMarP8GENL28CyBSZ50lPBlzCRdM/edit" class="btn btn-secondary">📝 구글 폼</a>
+      </div>
+    </section>
+
+    <!-- ❤️ 피드백 섹션 -->
+    <section class="section">
+      <h2>❤️ 여러분의 피드백이 필요합니다</h2>
+      <p>SoulPaw는 현재 정식 서비스 출시 전 마지막 테스트를 진행하고 있습니다.</p>
+      <br>
+      <p>사용 중 불편했던 점, 추가되었으면 하는 기능, 추천 결과에 대한 의견 등을 자유롭게 남겨주세요.</p>
+      <br>
+      <p>여러분의 피드백 하나하나가 더 좋은 AI 추천 서비스로 발전하는 데 큰 도움이 됩니다.</p>
+    </section>
+
+    <footer>
+      <p>🐶 SoulPaw와 함께 당신에게 가장 잘 어울리는 반려 가족을 만나보세요.</p>
+      <br>
+      <p>© 2026 SoulPaw. All Rights Reserved.</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

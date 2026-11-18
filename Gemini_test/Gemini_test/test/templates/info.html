@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- ⚠️ [필수 추가] 모바일 반응형 대응을 위한 뷰포트 설정 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>동물 관련 질문</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='info.css') }}">
+
+    <script>
+        // Enter 키를 눌렀을 때 동작 (크로스 브라우징 및 명확한 이벤트 객체 참조)
+        function US(form, e) {
+            const evt = e || window.event;
+            if (evt.keyCode == 13) {
+                animal_bnt();
+                return false;
+            }
+        }
+
+        let progressInterval;
+
+        // 로딩을 시작하고 답변 칸에 스피너를 띄우는 함수
+        function startLoading(searchButton, loadingContainer, loadingMessage, answerTd) {
+            // 답변 칸을 숨기고 로딩 컨테이너를 표시
+            answerTd.style.display = 'none';
+            loadingContainer.style.display = 'flex';
+            searchButton.disabled = true;
+
+            // 가짜 진행률 시작
+            let progress = 0;
+            const progressFill = document.getElementById("progress-fill");
+            loadingMessage.textContent = `답변 생성 중... ${progress}%`;
+            if (progressFill) progressFill.style.width = `${progress}%`;
+
+            progressInterval = setInterval(() => {
+                if (progress < 99) {
+                    // 0%에서 99%까지 증가 속도 조절
+                    progress += (progress < 50) ? 5 : 1;
+                }
+                loadingMessage.textContent = `답변 생성 중... ${progress}%`;
+                if (progressFill) progressFill.style.width = `${progress}%`;
+            }, 100);
+        }
+
+        // 로딩을 종료하고 결과를 표시하는 함수
+        function stopLoading(searchButton, loadingContainer, loadingMessage, answerTd) {
+            clearInterval(progressInterval);
+            loadingMessage.textContent = `답변 생성 중... 100% 완료`;
+            const progressFill = document.getElementById("progress-fill");
+            if (progressFill) progressFill.style.width = '100%';
+
+            // 1.5초 후 로딩 스피너 숨김 및 버튼 활성화
+            setTimeout(() => {
+                loadingContainer.style.display = 'none';
+                answerTd.style.display = 'block'; // 답변 칸 다시 표시
+                searchButton.disabled = false;
+            }, 1500);
+        }
+
+        // 검색 버튼 클릭 시 동작 (AJAX 및 진행률 구현)
+        async function animal_bnt() {
+            const US_qe = document.getElementById("US_qe").value;
+            const form = document.getElementById("US_info");
+
+            // 클래스명으로 전송 버튼을 찾습니다.
+            const searchButton = form.querySelector('.btn-primary');
+
+            const answerTd = document.getElementById("answer-display-td");
+            const loadingContainer = document.getElementById("answer-loader");
+            const loadingMessage = document.getElementById("progress-percent");
+
+            if (US_qe.trim() === "") {
+                alert("질문 내용을 입력해주세요.");
+                return;
+            }
+
+            // 중복 클릭 처리 방지
+            if (searchButton.disabled) return;
+
+            // 로딩 시작
+            startLoading(searchButton, loadingContainer, loadingMessage, answerTd);
+
+            try {
+                const formData = new FormData(form);
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error(`HTTP 오류! ${response.status}`);
+
+                const data = await response.json();
+                // 답변 표시
+                answerTd.textContent = data.Gemitext || "답변을 가져오지 못했습니다.";
+
+            } catch (error) {
+                console.error('Error:', error);
+                answerTd.textContent = "오류가 발생했습니다. 다시 시도해주세요.";
+            } finally {
+                // 로딩 종료
+                stopLoading(searchButton, loadingContainer, loadingMessage, answerTd);
+            }
+        }
+
+        // 메인화면 버튼 클릭 시 동작
+        function goHome() {
+            let f = document.createElement('form');
+            f.setAttribute('method', 'post');
+            f.setAttribute('action', 'Login');
+            document.body.appendChild(f);
+            f.submit();
+        }
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <header class="header-area">
+            <div class="header-container">
+                <div class="logo-text-only" onclick="goHome()">SoulPaw</div>
+                <!-- ⚠️ 모바일 화면에서도 깨짐 없이 중앙 정렬 및 비율 최적화 대응 -->
+                <div class="header-logo-center" style="display: flex; justify-content: center; align-items: center; cursor: pointer;" onclick="document.location.href='/Login'">
+                    <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 60px; max-width: 100%; height: auto;" alt="Soul Paw Image">
+                </div>
+                <div class="header-auth-zone">
+                    {% if Login_id %}
+                    <div class="auth-logged-in">
+                        <span class="user-welcome"><b>{{ US_name }}</b>님 안녕하세요</span>
+                        <button class="logout-btn" onclick="document.location.href='/Logout'">로그아웃</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+        
+        <main class="info-container">
+            <div class="qa-card">
+                <div class="qa-header">
+                    <h2>🐾 무엇이든 물어보세요!</h2>
+                    <p>SoulPaw AI가 반려동물에 대한 궁금증을 해결해 드립니다.</p>
+                </div>
+                <form method="post" name="US_info" id="US_info" action="/info">
+                    <div class="input-section">
+                        <div class="input-wrapper">
+                            <!-- ⚠️ onkeypress 스크립트 매개변수 구조 보완 -->
+                            <input type="text" id="US_qe" name="US_qe" onkeypress="return US(this.form, event)"
+                                placeholder="동물 관련 질문만 해주세요." class="styled-input" />
+                            <button type="button" class="btn-search-icon" onclick="animal_bnt()">✨</button>
+                        </div>
+                    </div>
+                    <div class="answer-section">
+                        <span class="answer-label">SoulPaw AI ANSWER</span>
+                        
+                        <!-- 로딩 안내 스피너 영역 -->
+                        <div id="answer-loader" class="buffer-container" style="display: none;">
+                            <div class="buffer-spinner"></div>
+                            <div class="progress-info">
+                                <span id="progress-percent">0%</span>
+                                <p>답변을 생성하고 있습니다...</p>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div id="progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 답변 출력 텍스트 영역 -->
+                        <div id="answer-display-td" class="answer-display-td"
+                            style="white-space: pre-line; padding: 10px;">
+                            {% if Gemitext %}
+                            {{ Gemitext }}
+                            {% else %}
+                            <span class="placeholder-text">궁금한 내용을 입력하고 검색을 시작해보세요.</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn-primary" onclick="animal_bnt()">질문 전송하기</button>
+                        <button type="button" class="btn-secondary" onclick="goHome()">메인화면으로</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer class="main-footer">
+            <p>Copyright © 2026 SoulPaw All Rights Reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

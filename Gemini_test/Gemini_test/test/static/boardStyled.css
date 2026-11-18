@@ -1,0 +1,338 @@
+/* =================================================== */
+/* 테마 변수 설정 */
+/* =================================================== */
+:root {
+    --primary-color: #58a6a2;
+    --primary-dark-color: #498c89;
+    --text-color-dark: #3a4750;
+    --background-light: #f9fafb;
+    --border-light: #e0e5e9;
+    --shadow-subtle: rgba(0, 0, 0, 0.12);
+    --shadow-focus: rgba(88, 166, 162, 0.4);
+    --hover-background: #f0f7f6;
+    --input-background: #fafafa;
+    --button-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* =================================================== */
+/* 1. 기본 스타일 및 레이아웃 */
+/* =================================================== */
+
+body {
+    font-family: 'Pretendard', 'Noto Sans KR', 'Segoe UI', sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-color-dark);
+    font-size: 16px; 
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* (A) 게시판 목록 페이지 전용 컨테이너 (넓게, 1200px) */
+.board-container {
+    width: 90%; 
+    max-width: 1200px; 
+    margin: 40px auto; 
+    padding: 0;
+}
+
+/* (B) 글쓰기 페이지 전용 컨테이너 (좁고 카드 형태로, 480px) */
+.write-form-wrapper {
+    width: 90%; 
+    max-width: 480px; 
+    margin: 40px auto; 
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px var(--shadow-subtle);
+}
+
+h2 {
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary-dark-color);
+}
+
+/* ------------------------------------- */
+/* 2. 테이블 및 반응형 컨테이너 */
+/* ------------------------------------- */
+
+/* 테이블 전체 래퍼 (모바일 가로 스크롤 및 그림자 담당) */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px var(--shadow-subtle);
+    margin-bottom: 25px;
+    background-color: #fff;
+}
+
+table {
+    width: 100%;
+    min-width: 700px;
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+th, td {
+    border-bottom: 1px solid var(--border-light);
+    padding: 12px 15px;
+    text-align: center; 
+    font-size: 15px;
+    white-space: nowrap; 
+}
+
+th {
+    font-weight: 600;
+    color: white; 
+    background-color: var(--primary-dark-color);
+}
+
+table tr:hover {
+    background-color: var(--hover-background);
+    cursor: pointer;
+}
+
+/* 테이블 모서리 둥글게 처리 및 경계선 정리 */
+table tr:first-child th:first-child { border-top-left-radius: 12px; }
+table tr:first-child th:last-child { border-top-right-radius: 12px; }
+table tr:last-child td { border-bottom: none; }
+
+/* 제목 셀 스타일 */
+td:nth-child(2) {
+    text-align: left;
+    white-space: normal; 
+}
+
+/* ------------------------------------- */
+/* 3. 액션 바 및 버튼 그룹 */
+/* ------------------------------------- */
+
+.action-bar {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center; /* 기존: flex-end -> 가운데 정렬 */
+    align-items: center;
+    gap: 15px; 
+}
+
+/* 버튼 공통 스타일 (글쓰기, 메인화면, 검색 버튼) */
+.write-btn, .btn, .search-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px; 
+    font-weight: 600; 
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none; 
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    white-space: nowrap;
+    line-height: 1.5; 
+    box-shadow: var(--button-shadow);
+}
+
+.write-btn:hover, .btn:hover, .search-btn:hover {
+    background-color: var(--primary-dark-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+.write-btn:active, .btn:active, .search-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* ------------------------------------- */
+/* 4. 검색 창 및 입력 필드 (폼 스타일) */
+/* ------------------------------------- */
+
+.search-box {
+    display: flex;
+    justify-content: center;  /* 검색박스를 전체 가운데 정렬 */
+    align-items: center;      /* 입력 필드와 버튼 수직 중앙 맞춤 */
+    gap: 8px;
+    margin: 0 auto;           /* 좌우 자동 마진 */
+}
+
+.search-input {
+    flex: 1;                  /* 입력 필드가 가능한 공간 다 차지 */
+    max-width: 300px;         /* 필요 시 최대 너비 지정 */
+    padding: 10px 14px;
+    border: 2px solid var(--border-light);
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+    background-color: var(--input-background);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+
+.search-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    white-space: nowrap;
+    line-height: 1.5;
+    box-shadow: var(--button-shadow);
+}
+.search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--shadow-focus);
+    background-color: #fff;
+}
+
+/* 글쓰기 폼 - 입력 필드 및 텍스트 영역 공통 스타일 */
+input[type="text"], 
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    margin-bottom: 25px;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    font-size: 16px; 
+    color: var(--text-color-dark);
+    outline: none;
+    resize: vertical; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    background-color: var(--input-background);
+}
+input[type="text"]:focus, 
+textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px var(--shadow-focus);
+    background-color: #fff;
+}
+
+/* 제목 p 태그 스타일 (레이블 역할) */
+.write-form p {
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    font-size: 17px;
+    color: var(--text-color-dark);
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+.pagination a {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 2px;
+    border: 1px solid #58a6a2;
+    text-decoration: none;
+    color: #333;
+    border-radius: 12px;
+}
+.pagination a.active {
+    background-color: #58a6a2;
+    color: white;
+    border: 1px solid #58a6a2;
+
+}
+
+/* 댓글 수정 삭제 */
+.udinbtn {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px; 
+    font-weight: 400; 
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none; 
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    white-space: nowrap;
+    line-height: 1.5; 
+    box-shadow: var(--button-shadow);
+}
+/* =================================================== */
+/* 5. 모바일 반응형 (최대 768px) */
+/* =================================================== */
+
+@media (max-width: 768px) {
+    /* 모바일에서 모든 컨테이너의 너비를 꽉 채우고 마진/패딩 조정 */
+    .board-container, .write-form-wrapper { 
+        width: 100%;
+        margin: 0;
+        box-shadow: none; 
+        border-radius: 0;
+    }
+    
+    .search-box {
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .search-input {
+        flex: 1;
+        max-width: none;
+    }
+
+    .search-btn {
+        flex-shrink: 0;
+    }
+
+    h2 {
+        padding: 0 20px;
+    }
+
+    /* 모바일 테이블은 그림자 및 둥근 모서리 제거 */
+    .table-responsive {
+        box-shadow: none;
+        border-radius: 0;
+    }
+    
+    /* 테이블 래퍼가 포함된 컨테이너 (.board-container)는 좌우 패딩을 0으로 설정 */
+    .board-container {
+        padding: 20px 0; 
+    }
+    
+    /* 글쓰기 폼 래퍼 (.write-form-wrapper)는 좌우 패딩을 20px로 설정 */
+    .write-form-wrapper {
+        padding: 20px;
+    }
+
+    /* 액션 바: 수직 정렬 및 꽉 채우기 */
+    .action-bar {
+        padding: 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    /* 버튼 및 검색창 너비 조정 */
+    .write-btn, .btn, .search-box {
+        width: 100%; 
+        box-sizing: border-box;
+    }
+    
+    /* 검색창 내부 조정 */
+    .search-input {
+        width: 100%;
+        flex-grow: 1; 
+        padding: 8px 12px; 
+    }
+    
+    .search-btn {
+        padding: 8px 15px; 
+        flex-shrink: 0;
+    }
+}

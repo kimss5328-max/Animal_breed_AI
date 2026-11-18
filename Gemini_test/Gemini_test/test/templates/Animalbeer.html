@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SoulPaw | 동물 추천</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='buffering.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Animalbeer.css') }}">
+    
+    <style>
+        /* --------------------------------------------------
+           [화이트 테마 고정] 로딩 오버레이 스타일
+        ----------------------------------------------------- */
+        #loading-spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.92) !important; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: sans-serif;
+            opacity: 1 !important;
+        }
+
+        /* 주황색 포인트를 준 원형 스피너 */
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #e0e0e0 !important;
+            border-top: 5px solid #ff8a3d !important;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 25px;
+            opacity: 1 !important;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 하단 가이드 멘트 박스 스타일 */
+        #loading-message {
+            text-align: center !important;
+            line-height: 1.8 !important;
+            white-space: pre-wrap !important;
+            font-size: 16px !important;
+            color: #111111 !important;
+            font-weight: bold !important;
+            max-width: 650px;
+            padding: 0 20px;
+            opacity: 1 !important;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            setupCustomSelect(".custom-select-mbti", "US_MBTI_hidden");
+            setupCustomSelect(".custom-select-house", "house_hidden");
+            // ✅ 계통별 대분류 동물 선택창 활성화
+            setupCustomSelect(".custom-select-animal", "Good_animal");
+            // ✅ 비선호 동물 커스텀 드롭다운 활성화
+            setupCustomSelect(".custom-select-be-animal", "Be_animal");
+        });
+
+        function setupCustomSelect(selector, hiddenInputId){
+            const select = document.querySelector(selector);
+            if (!select) return;
+            
+            const selected = select.querySelector(".select-selected");
+            const items = select.querySelector(".select-items");
+            const hiddenInput = document.getElementById(hiddenInputId);
+            const searchInput = select.querySelector(".select-search-input");
+
+            const allItems = Array.from(items.querySelectorAll("div"));
+            
+            selected.addEventListener("click", (e) => {
+                e.stopPropagation(); 
+                select.classList.toggle("active");
+                
+                document.querySelectorAll('.custom-select.active').forEach(otherSelect => {
+                    if (otherSelect !== select) {
+                        otherSelect.classList.remove('active');
+                        const otherSearchInput = otherSelect.querySelector(".select-search-input");
+                        if (otherSearchInput) otherSearchInput.value = "";
+                        otherSelect.querySelectorAll(".select-items div").forEach(i => i.style.display = "");
+                    }
+                });
+
+                if (select.classList.contains("active") && searchInput ){
+                    searchInput.focus();
+                }
+            });
+
+            if (searchInput){
+                searchInput.addEventListener("input", function() {
+                    const filter = this.value.toUpperCase();
+                    allItems.forEach(item => {
+                        const text = item.textContent.toUpperCase();
+                        item.style.display = text.includes(filter) ? "" : "none";
+                    });
+                });
+                searchInput.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                })
+            }
+
+            allItems.forEach(item => {
+                item.addEventListener("click", (e) => {
+                    e.stopPropagation(); 
+
+                    // 💡 [중복 선택 방지 로직 추가]
+                    if (hiddenInputId === "Good_animal") {
+                        const beAnimalValue = document.getElementById("Be_animal").value;
+                        if (beAnimalValue && beAnimalValue === item.textContent) {
+                            alert("선호 동물과 비선호 동물은 같을 수 없습니다.");
+                            select.classList.remove("active");
+                            return;
+                        }
+                    } else if (hiddenInputId === "Be_animal") {
+                        const goodAnimalValue = document.getElementById("Good_animal").value;
+                        if (goodAnimalValue && goodAnimalValue === item.textContent) {
+                            alert("선호 동물과 비선호 동물은 같을 수 없습니다.");
+                            select.classList.remove("active");
+                            return;
+                        }
+                    }
+
+                    selected.textContent = item.textContent;
+                    hiddenInput.value = item.textContent;
+                    select.classList.remove("active");
+
+                    if (searchInput){
+                        searchInput.value = "";
+                        allItems.forEach(i => i.style.display = "");
+                    }
+                });
+            });
+
+            document.addEventListener("click", e => {
+                if (!select.contains(e.target)){
+                    select.classList.remove("active");
+                    if(searchInput){
+                        searchInput.value = "";
+                        allItems.forEach(i => i.style.display = "");
+                    }
+                }
+            });
+        }
+        
+        let progressInterval;
+
+        async function beerbtn(){
+            const form = document.getElementById("beer");
+            const spinner = document.getElementById("loading-spinner");
+            const loadingMessage = document.getElementById("loading-message"); 
+            
+            const US_MBTI = document.getElementById("US_MBTI_hidden");
+            const house = document.getElementById("house_hidden");
+            const yard_set = document.getElementsByName("yard"); 
+            const yard_hidden = document.getElementById("yard_value_hidden");
+
+            const US_MBTI_value = US_MBTI.value.trim();
+            const house_value = house.value.trim();
+            
+            let selectedYardValue = '';
+            yard_set.forEach((node) => {
+                if(node.checked)  {
+                    selectedYardValue = node.value; 
+                }
+            })
+            yard_hidden.value = selectedYardValue; 
+            
+            if(!US_MBTI_value || US_MBTI_value === '선택하세요.'){
+                alert("MBTI를 선택해주세요.");
+                return;
+            } else if(!house_value || house_value === '선택하세요.'){
+                alert("거주환경을 선택해주세요.");
+                return;
+            } else if(!selectedYardValue){
+                alert("마당 여부(O/X)를 선택해야 합니다.");
+                return;
+            }
+            
+            spinner.style.display = 'flex';
+
+            let progress = 0;
+            const guideMessage = "\n\n💡 잠깐! 이 추천은 여러분의 첫 걸음을 위한 가이드일 뿐입니다.\n실제 동물의 성격은 개체마다 모두 다릅니다.\n결정하기 전에 해당 동물의 특성을 더 자세히 알아보고, 전문가의 조언을 듣는 것을 강력하게 추천합니다.";
+
+            loadingMessage.innerText = `잠시만 기다려주세요... ${progress}%` + guideMessage;
+
+            progressInterval = setInterval(() => {
+                if (progress < 99) {
+                    progress += (progress < 50) ? 5 : 1; 
+                }
+                loadingMessage.innerText = `잠시만 기다려주세요... ${progress}%` + guideMessage;
+            }, 100); 
+            
+            try {
+                const formData = new FormData(form);
+                
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP 오류 발생! 상태 코드: ${response.status}`);
+                }
+
+                const data = await response.json(); 
+                
+                clearInterval(progressInterval);
+                loadingMessage.innerText = `100% 완료` + guideMessage;
+
+                if(data && data.redirectUrl) {
+                    setTimeout(() => {
+                        window.location.href = data.redirectUrl; 
+                    }, 500); 
+                } else {
+                    alert("동물 추천 요청이 완료되었으나, 다음 이동 페이지 정보가 없습니다.");
+                }
+                
+            } catch (error) {
+                clearInterval(progressInterval); 
+                console.error('요청 중 오류 발생:', error);
+                loadingMessage.innerText = `오류 발생: ${error.message}`;
+                alert(`요청 처리 중 오류 발생: ${error.message}. 다시 시도해주세요.`);
+            } finally {
+                if (typeof data === 'undefined' || !data || !data.redirectUrl) {
+                    setTimeout(() => {
+                        spinner.style.display = 'none'; 
+                    }, 1500); 
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <header class="header-area">
+            <div class="header-container">
+                <div class="logo-text-only" onclick="document.location.href='/Login'">SoulPaw</div>
+                <div class="header-logo-center" style="display: flex; justify-content: center; align-items: center; cursor: pointer;" onclick="document.location.href='/Login'">
+                    <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 60px; max-width: 100%; height: auto;" alt="Soul Paw Image">
+                </div>
+                <div class="header-auth-zone">
+                    {% if Login_id %}
+                    <div class="auth-logged-in">
+                        <span class="user-welcome"><b>{{ US_name }}</b>님 안녕하세요</span>
+                        <button class="logout-btn" onclick="document.location.href='/Logout'">로그아웃</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content-container">
+            <div class="container">
+                <h1 class="main-title">MBTI & 거주 환경 기반 동물 추천</h1>
+                
+                <form method="post" name="beer" id="beer" action="/Animalbeer">
+                    <div class="main-content-row" style="display: flex; gap: 40px; flex-wrap: wrap;">                        
+                        <div class="form-inputs-section" style="flex: 1; min-width: 300px;">
+                            <div class="form-group">
+                                <label>MBTI (예: ENFP)</label>
+                                <div class="custom-select custom-select-mbti">
+                                    <div class="select-selected">선택하세요.</div>
+                                    <div class="select-items">
+                                        <input type="text" class="select-search-input" placeholder="4글자 MBTI 입력">
+                                        <div>INTJ</div><div>INTP</div><div>ENTJ</div><div>ENTP</div>
+                                        <div>INFJ</div><div>INFP</div><div>ENFJ</div><div>ENFP</div>
+                                        <div>ISTJ</div><div>ISFJ</div><div>ESTJ</div><div>ESFJ</div>
+                                        <div>ISTP</div><div>ISFP</div><div>ESTP</div><div>ESFP</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="US_MBTI_hidden" name="US_MBTI">
+                            </div>
+
+                            <div class="form-group">
+                                <label>사는 집 유형</label>
+                                <div class="custom-select custom-select-house">
+                                    <div class="select-selected">선택하세요.</div>
+                                    <div class="select-items">
+                                        <div>단독주택</div><div>빌라</div><div>아파트</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="house_hidden" name="house">
+                            </div>
+
+                            <div class="form-group radio-group-container">
+                                <label>마당 유무</label>
+                                <div class="radio-group-options">
+                                    <label for="yard_O">있음 (O)<input type="radio" name="yard" id="yard_O" value="O"></label>
+                                    <label for="yard_X">없음 (X)<input type="radio" name="yard" id="yard_X" value="X"></label>
+                                </div>
+                                <input type="hidden" id="yard_value_hidden" name="yard_value" value="" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>선호하는 동물 (선택 사항)</label>
+                                <div class="custom-select custom-select-animal">
+                                    <div class="select-selected">선택하세요.</div>
+                                    <div class="select-items">
+                                        <input type="text" class="select-search-input" placeholder="동물 카테고리 검색">
+                                        <div>강아지</div><div>고양이</div><div>가재</div><div>관상어</div>
+                                        <div>금화조</div><div>기니피그</div><div>도마뱀</div><div>메추리</div>
+                                        <div>문조</div><div>뱀</div><div>비둘기</div><div>비쉬림프</div>
+                                        <div>사슴벌레</div><div>생이새우</div><div>소라게</div><div>슈가글라이더</div>
+                                        <div>앵무새</div><div>지네</div><div>토끼</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="Good_animal" name="Good_animal">
+                            </div>
+
+                            <div class="form-group">
+                                <label>비선호하는 동물 (선택 사항)</label>
+                                <div class="custom-select custom-select-be-animal">
+                                    <div class="select-selected">선택하세요.</div>
+                                    <div class="select-items">
+                                        <input type="text" class="select-search-input" placeholder="동물 카테고리 검색">
+                                        <div>강아지</div><div>고양이</div><div>가재</div><div>관상어</div>
+                                        <div>금화조</div><div>기니피그</div><div>도마뱀</div><div>메추리</div>
+                                        <div>문조</div><div>뱀</div><div>비둘기</div><div>비쉬림프</div>
+                                        <div>사슴벌레</div><div>생이새우</div><div>소라게</div><div>슈가글라이더</div>
+                                        <div>앵무새</div><div>지네</div><div>토끼</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="Be_animal" name="Be_animal">
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-area" style="flex: 0.8; min-width: 250px;">
+                            <input type="button" onclick="beerbtn()" value="동물 추천 받기" class="submit-button" />
+                            <input type="button" onclick="document.location.href='/Login'" value="메인화면" class="main-page-button" />
+                            <div class="recommendation-summary-box" style="margin-top: 30px;">
+                                <p class="summary-title">추천 결과 요약</p>
+                                <div class="summary-content">
+                                    <p><strong>동물 종류:</strong> --</p>
+                                    <p><strong>추천 품종:</strong> --</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group detail-recommendation-group">
+                        <label>상세 추천 내용</label>
+                        <div class="recommendation-detail-box">
+                            여기에 AI의 상세 추천 내용이 표시됩니다.
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="US_pe" name="US_pe" value="없음" />
+                </form>
+            </div>
+        </div>
+
+        <footer class="main-footer">
+            <div class="footer-content">
+                <p>Copyright © 2026 SoulPaw All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+        <span id="loading-message"></span>
+    </div>
+</body>
+</html>

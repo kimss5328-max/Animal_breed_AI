@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>SoulPaw | 게시글 수정</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='edit.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='board.css') }}">
+    <style>
+        /* 하단 푸터 고정을 위한 레이아웃 스타일 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* 화면 전체 높이 확보 */
+        }
+
+        .main-content {
+            flex: 1; /* 남는 공간을 모두 채워 푸터를 아래로 밀어냄 */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- 헤더 영역 -->
+        <header class="header-area">
+            <div class="header-container">
+                <div class="logo-text-only" onclick="document.location.href='/Login'">
+                    SoulPaw
+                </div>
+                <div style="text-align : center; cursor: pointer;" onclick="document.location.href='/Login'">
+                    <img src="{{ url_for('static', filename='image/soulpaw.png') }}" style="width: 80px;" alt="Soul Paw Image">
+                </div>
+                <div class="auth-logged-in">
+                    <span class="user-welcome"><b>{{ US_name }}</b>님 안녕하세요</span>
+                    <button class="logout-btn" onclick="document.location.href='/Logout'">로그아웃</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <main class="main-content">
+            <div class="board-container" style="max-width: 800px; margin: 50px auto;">
+                <div class="write-form-wrapper">
+                    <h2 style="text-align: left; margin-bottom: 30px; font-size: 1.6em;">📝 게시글 수정하기</h2>
+                    
+                    <form method="POST" class="write-form">
+                        <div class="input-group">
+                            <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #4b3621;">제목</label>
+                            <input type="text" name="title" value="{{ post[1] }}" required placeholder="제목을 입력해 주세요." 
+                                   style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+                        </div>
+                        
+                        <div class="input-group" style="margin-top: 20px;">
+                            <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #4b3621;">내용</label>
+                            <textarea name="content" required rows="12" placeholder="내용을 입력해 주세요." 
+                                      style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; resize: vertical;">{{ post[2] }}</textarea>
+                        </div>
+                        
+                        <!-- 버튼 그룹 디자인 최적화 -->
+                        <div class="action-bar edit-actions" style="margin-top: 30px; display: flex; gap: 10px;">
+                            <button type="submit" class="btn btn-edit" style="border: none; padding: 12px 25px;">수정 완료 ✨</button>
+                            <a href="/detail/{{ post[0] }}" class="btn btn-list" style="padding: 12px 25px;">취소하고 돌아가기</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <!-- 푸터 영역 -->
+        <footer style="padding: 40px; background: #1a1a1a; color: #909399; text-align: center; font-size: 0.85em;">
+            <p>Copyright © 2026 SoulPaw All Rights Reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

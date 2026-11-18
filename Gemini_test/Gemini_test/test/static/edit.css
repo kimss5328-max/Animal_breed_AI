@@ -1,0 +1,98 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+.write-form-wrapper {
+    padding: 10px 5px;
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 700;
+    color: #4b3621;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+}
+
+/* 입력 필드 공통 스타일 */
+.write-form input[type="text"], 
+.write-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ffefe0;
+    border-radius: 12px;
+    padding: 15px 20px;
+    font-family: inherit;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: #fdfaf8;
+}
+
+.write-form input[type="text"]:focus, 
+.write-form textarea:focus {
+    border-color: #ff8c00;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.08);
+}
+
+.write-form textarea {
+    resize: vertical; /* 세로 크기 조절만 허용 */
+    line-height: 1.6;
+}
+
+/* 버튼 스타일 커스텀 */
+.edit-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 40px;
+    border-top: 1px solid #f2e8df;
+    padding-top: 30px;
+}
+
+.btn-submit {
+    flex: 2;
+    background: linear-gradient(135deg, #ff8c00 0%, #ffae42 100%);
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 15px;
+    font-weight: 800;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 140, 0, 0.2);
+}
+
+.btn-back {
+    flex: 1;
+    background-color: #777;
+    color: #777;
+    text-align: center;
+    text-decoration: none;
+    padding: 18px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.btn-back:hover {
+    background-color: #999;
+    color: #333;
+}
+
+@media (max-width: 600px) {
+    .edit-actions {
+        flex-direction: column;
+    }
+    .btn-submit, .btn-back {
+        width: 100%;
+    }
+}

@@ -1,0 +1,78 @@
+/* ------------------------------------- */
+/* 3. 일반 입력 필드 (높이 통일) */
+/* ------------------------------------- */
+
+.styled-input,
+input[type="text"], 
+input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    /* 높이 통일: padding-top/bottom 14px */
+    padding: 14px 14px; 
+    border: 2px solid var(--border-light);
+    border-radius: 12px;
+    font-size: 16px; 
+    color: var(--text-color-dark);
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.styled-input:focus, 
+input[type="text"]:focus, 
+input[type="password"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--shadow-focus);
+}
+
+/* ------------------------------------- */
+/* 4. 버튼이 포함된 입력 필드 */
+/* ------------------------------------- */
+/* (기존 스타일 유지) */
+.input-with-button {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--border-light);
+    border-radius: 12px;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.input-with-button:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--shadow-focus);
+}
+
+.input-with-button .styled-input {
+    flex-grow: 1;
+    width: auto;
+    padding-right: 14px; 
+    border: none; 
+    border-radius: 0;
+}
+.input-with-button .styled-input:focus {
+    box-shadow: none; 
+}
+
+
+.input-with-button .inside-btn {
+    flex-shrink: 0;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px; 
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-right: 8px; 
+}
+
+.input-with-button .inside-btn:hover {
+    background-color: var(--primary-dark-color);
+    transform: translateY(-1px);
+}
+.input-with-button .inside-btn:active {
+    transform: translateY(0);
+}

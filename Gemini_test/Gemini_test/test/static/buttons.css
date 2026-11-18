@@ -1,0 +1,66 @@
+input[type="button"], input[type="submit"] {
+    width: 100%;
+    margin: 10px 0;
+    /* 높이 통일: padding-top/bottom 14px */
+    padding: 14px 0; 
+    border: none;
+    border-radius: 12px;
+    font-size: 16px; 
+    font-weight: 600; 
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    letter-spacing: 0.3px;
+}
+input[type="button"]:hover, input[type="submit"]:hover {
+    background-color: var(--primary-dark-color);
+    transform: translateY(-1px);
+}
+input[type="button"]:active, input[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* --- 상단 '전체보기'와 '검색' 버튼 --- */
+table tr:nth-child(2) input[type="button"] {
+    width: 100%; 
+    margin: 0;
+    padding: 14px 0; 
+    border-radius: 12px;
+}
+
+/* --- 상단 '로그아웃' 버튼 (높이 강제 고정) --- */
+.logout-btn-cell input[type="button"] {
+    height: 46px; 
+    line-height: 46px; 
+    padding: 0 !important; 
+    margin: 0 !important; 
+    width: 100% !important; 
+}
+
+
+/* --- 하단 '메인화면' 버튼 (색상 통일 유지) --- */
+table tr:last-child input[type="button"] {
+    background-color: var(--primary-color); 
+    margin-top: 20px;
+}
+table tr:last-child input[type="button"]:hover {
+    background-color: var(--primary-dark-color);
+}
+
+/* ------------------------------------- */
+/* 세부정보 버튼만 작게 만드는 스타일 (예외) */
+/* ------------------------------------- */
+/* (기존 스타일 유지) */
+.seboo {
+    width: auto !important; 
+    padding: 6px 12px !important; 
+    margin: 0 !important; 
+    font-size: 13px !important; 
+    border-radius: 8px !important; 
+    transform: none !important;
+}
+
+.seboo:hover {
+    transform: translateY(-1px) !important;
+}

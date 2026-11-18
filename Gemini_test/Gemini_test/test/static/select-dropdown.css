@@ -1,0 +1,127 @@
+.select-search-input{
+    width: 90%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    margin: 6px auto;
+    display: block;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--text-color-dark);
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.select-search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--shadow-focus);
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+    font-family: inherit;
+    box-sizing: border-box;
+    border: 2px solid var(--border-light); 
+    border-radius: 12px;
+    background-color: #fff;
+    transition: all 0.2s ease;
+    font-size: 15px; 
+    outline: none;
+}
+
+.custom-select:focus-within, .custom-select.active {
+    border-color: var(--primary-color);
+    box-shadow: none; 
+}
+
+.select-selected {
+    background-color: transparent;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 14px; 
+    cursor: pointer;
+    font-size: 16px; 
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color-dark);
+    transition: all 0.2s ease;
+}
+
+.select-selected::after {
+    content: '▼';
+    font-size: 12px;
+    color: var(--text-color-light);
+    margin-left: 5px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+.custom-select.active .select-selected::after {
+    transform: rotate(180deg);
+    color: var(--primary-color);
+}
+
+.select-items {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 6px 15px var(--shadow-subtle); 
+    border-radius: 12px;
+    width: calc(100% + 4px);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 100;
+    left: -2px;
+    top: calc(100% + 8px); 
+    padding-top: 5px;
+}
+.select-items div {
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-size: 15px;
+    text-align: left;
+    color: var(--text-color-dark);
+}
+.select-items div:hover {
+    background-color: var(--hover-background);
+    color: var(--primary-dark-color);
+}
+.custom-select.active .select-items {
+    display: block;
+}
+
+.select-items::-webkit-scrollbar {
+    width: 6px;
+}
+.select-items::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 3px;
+}
+.select-items::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+.fixed-width-80 {
+    width: 80px !important; 
+}
+
+.fixed-width-80 .select-selected {
+    width: 90%; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    padding: 14px 14px; 
+    padding-left: 5px !important;
+    padding-right: 0px !important;
+}
+
+.fixed-width-80 .select-selected::after {
+    margin-left: 5px; 
+}
+
+.fixed-width-80 .select-items {
+    width: 84px !important;
+}
